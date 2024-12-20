@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Racer Team</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            background: rgba(52, 51, 51, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(247, 5, 5, 0.805);
+        }       
+
+        .profile-card img {
+            width: 150px; /* Width of the image */
+            height: 150px; /* Height of the image */
+            object-fit: cover; /* Ensures the image fills the box without distortion */
+            margin-right: 20px;
+            border: 3px solid #ff0000; /* Border around the image (box outline) */
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Optional shadow for the image */
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(114, 113, 113, 0.8);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Neon glow effect */
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+            width: 200px; /* Set the button width */
+            padding: 1rem; /* Adjust button padding */
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        /* Active button glow effect */
+        .neon-button.active {
+            box-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 0.8);
+        }
+        .student-image {
+        width: 300px;
+        height: 300px;
+        object-fit: cover; /* Ensures the aspect ratio is maintained */
+        }
+        .nav-container {
+            position: absolute;
+            top: 2rem; /* Adjust the top margin */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 2rem; /* Add more space between the buttons */
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .picture{
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+    <script>
+        function setActive(page) {
+            document.querySelectorAll('.neon-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(page).classList.add('active');
+        }
+    </script>
+</head>
+<body class="bg-black min-h-screen flex flex-col justify-center items-center">
+    
+    <div class="nav-container">
+        <button id="faculty" class="neon-button text-lg text-center block" onclick="window.location.href='/faculty'">Faculty</button>
+        <button id="student" class="neon-button text-lg text-center block active" onclick="setActive('student')">Student</button>
+    </div>
+
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- First row -->
+            <div class="profile-card lg:col-span-1 lg:row-start-1 lg:col-start-1">
+                <img src="" class="picture" alt="">
+                <div>
+                    <h2 class="text-xl font-bold text-red-500">-----</h2>
+                    <p class="text-gray-300">-----</p>
+                </div>
+            </div>
+            <div class="lg:col-span-1 lg:row-start-1 lg:col-start-2"></div>
+            <!-- Second row -->
+            <div class="profile-card lg:col-span-1 lg:row-start-2 lg:col-start-2">
+                <img src="{% static 'IMG_20240523_220314_397.jpg' %}" class="picture" alt="">
+                <div>
+                    <h2 class="text-xl font-bold text-red-500">Santhosh Babu</h2>
+                    <p class="text-gray-300">Full Stack Developer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© 2025 Shackles. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        .neon-text {
+            color: #ff0000;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+            width: 200px;
+            padding: 1rem;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .animate-glow {
+            animation: glow 1.5s ease-in-out infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Welcome Racer Section -->
+    <section class="py-10 bg-black text-center ">
+        <h1 class="text-5xl font-bold neon-text animate-fadeIn">Welcome Racer!</h1>
+    </section>
+
+    <section class="py-20 bg-black"> 
+        <div class="container mx-auto text-center">
+            <h2 class="text-5xl font-bold neon-text mb-8 animate-glow">Our Featured Events</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Event Cards -->
+                <div class="transform hover:scale-105 transition-transform duration-300 p-6 bg-gray-800 shadow-2xl rounded-lg">
+                    <a href="{% url 'event_register' event_id=1 %}">
+                        <img src="https://example.com/tech-paper.jpg" alt="Technical Paper" class="mb-4 w-full h-48 object-cover rounded-md">
+                        <h3 class="text-2xl font-semibold mb-4 neon-text animate-glow">Technical Paper Presentation</h3>
+                        <p class="text-gray-300">Present groundbreaking research in mechanical engineering and compete with the best minds.</p>
+                    </a>
+                </div>
+                <!-- Repeat for other events with respective event IDs -->
+                <div class="transform hover:scale-105 transition-transform duration-300 p-6 bg-gray-800 shadow-2xl rounded-lg">
+                    <a href="{% url 'event_register' event_id=2 %}">
+                        <img src="https://example.com/cad-contest.jpg" alt="CAD Modeling" class="mb-4 w-full h-48 object-cover rounded-md">
+                        <h3 class="text-2xl font-semibold mb-4 neon-text animate-glow">CAD Modeling Contest</h3>
+                        <p class="text-gray-300">Showcase your creativity and design skills in the ultimate CAD showdown.</p>
+                    </a>
+                </div>
+                <div class="transform hover:scale-105 transition-transform duration-300 p-6 bg-gray-800 shadow-2xl rounded-lg">
+                    <a href="{% url 'event_register' event_id=3 %}">
+                        <img src="https://example.com/cad-contest.jpg" alt="CAD Modeling" class="mb-4 w-full h-48 object-cover rounded-md">
+                        <h3 class="text-2xl font-semibold mb-4 neon-text animate-glow">CAD Modeling Contest</h3>
+                        <p class="text-gray-300">Showcase your creativity and design skills in the ultimate CAD showdown.</p>
+                    </a>
+                </div>
+                <!-- Add more events here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-4">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">© 2025 Shackles. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

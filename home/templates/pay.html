@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Ensure the body takes full height */
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        .center-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(31, 41, 55, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .heading {
+            color: #ff0000;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .headingt {
+            color: #f31818;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .sub-heading {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <div class="center-box">
+        <h1 class="heading animate-pulse">Payment Page</h1>
+        <h2 class=" headingt ">Thank you for registering!</h2>
+        <p class="sub-heading"> Please proceed with payment. And send the details of your payment to Whatsapp</p>
+        <h2 class="text-xl text-white font-extrabold mb-6">Whatsapp Number: 6379721151</h2>
+
+        <!-- Button to redirect to login -->
+        <form action="{% url 'login' %}" method="get">
+            <button type="submit" class="neon-button w-full py-3 text-lg">
+                Go to Login
+            </button>
+        </form>
+        <p class="font-bold p-2">Our team give your Login ID within 24 hrs</p>
+    </div>
+</body>
+</html>

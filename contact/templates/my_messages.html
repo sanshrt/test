@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Racer Messages</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        .neon-text {
+            color: #ff0000;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+            width: 200px;
+            padding: 1rem;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .animate-glow {
+            animation: glow 1.5s ease-in-out infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.8);
+            }
+        }
+    </style>
+     <script>
+        function setActive(page) {
+            document.querySelectorAll('.neon-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(page).classList.add('active');
+        }
+    </script>
+</head>
+<body class="bg-black min-h-screen flex flex-col justify-between">
+    <header class="text-center py-6">
+        
+        <div class="flex justify-center space-x-4 mt-4">
+            <button class="neon-button text-lg text-center block" onclick="window.location.href='/send_message'">Send</button>
+            <button class="neon-button text-lg text-center block active shadow" onclick="setActive('my_message')">Chat</button>
+        </div>
+        <h1 class="text-4xl font-bold neon-text pt-5"> Messages</h1>
+    </header>
+
+    <main class="container mx-auto px-4 flex-grow">
+        {% block content %}
+        <h2 class="text-3xl font-bold text-red-500 mb-4 animate-pulse">Your Messages</h2>
+
+        {% if messages %}
+            <ul class="space-y-4">
+                {% for message in messages %}
+                    <li class="bg-black text-white rounded-lg p-4 border border-gray-700 shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105">
+                        <strong class="text-yellow-400 animate-fadeIn mr-4">{{ message.timestamp|date:"Y-m-d" }}</strong>: 
+                        <span class="text-gray-300 pl-5">{{ message.content }}</span>
+                        {% if message.is_read %}
+                            <span class="text-green-500 pl-5 font-semibold animate-glow">(Read)</span>
+                        {% else %}
+                            <span class="text-red-500 pl-5 font-semibold animate-glow">(Unread)</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-gray-400 italic animate-bounce">You haven't sent any messages yet.</p>
+        {% endif %}
+        {% endblock %}
+    </main>
+
+    <footer class="text-center py-4 bg-gray-800 text-gray-500">
+        <p>© 2025 Shackles. All rights reserved.</p>
+    </footer>
+</body>
+</html>

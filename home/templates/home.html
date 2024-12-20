@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shackles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        .animate-pulse-custom {
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-end bg-black">
+
+    <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm p-6 lg:p-8 bg-gray-800 bg-opacity-70 rounded-lg shadow-lg mx-4 lg:mx-8 text-center lg:text-left">
+        <div class="flex justify-center animate-pulse-custom"> 
+            <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-red-500">Welcome </h2>
+            <h2 class="text-3xl pl-2 lg:text-4xl font-bold mb-6 text-red-500">Racer! </h2>
+        </div>
+
+        <div class="text-2xl text-center text-white mb-6 ">Shackles-25</div>
+        
+        <div class="space-y-4">
+            <a href="event" class="neon-button w-full py-3 text-lg text-center block">Event</a>
+            <a href="event_register" class="neon-button w-full py-3 text-lg text-center block">Event Registration</a>
+        </div>
+
+        <div class="mt-6">
+            <p class="text-gray-400">Already a member? 
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="text-red-500 hover:underline">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-red-500 hover:underline">Login</a>
+                    <a href="{% url 'register' %}" class="text-red-500 hover:underline">Register</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-gray-400 absolute bottom-0 w-full py-4">
+        <div class="container text-center">
+            <p>© 2025 Shackles Symposium, ACGCET Mechanical Department. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

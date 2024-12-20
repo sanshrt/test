@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Racer Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on your header height */
+            right: 0; /* Align to the right side */
+            background-color: transparent;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            #menu-small a {
+                padding: 10px;
+                color: white;
+                font-weight: bold;
+                display: block;
+                align-items: center
+            }
+
+            #menu-small a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Footer at the bottom */
+        footer {
+            margin-top: auto; /* Push footer to the bottom of the page */
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Navbar -->
+    <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-bold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            Shackles
+        </h1>
+        <button id="menu-toggle" class="lg:hidden text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+
+        <!-- Menu on large screens -->
+        <div id="menu-large" class="hidden lg:flex lg:space-x-6 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
+            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
+            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        </div>
+
+        <!-- Menu on small screens -->
+        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center space-y-2">
+            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
+            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <div class="flex items-center justify-center lg:justify-end min-h-screen px-4 lg:px-16">
+        <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm p-6 lg:p-8 bg-gray-800 bg-opacity-70 rounded-lg shadow-lg text-center lg:text-left">
+            <div class="flex justify-center animate-pulse">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-red-500">Welcome</h2>
+                <h2 class="text-3xl pl-2 lg:text-4xl font-bold mb-6 text-red-500">Racer!</h2>
+            </div>
+            <form method="POST" class="space-y-3">
+                {% csrf_token %}
+                <div>
+                    <label for="user_name" class="block text-sm font-medium text-gray-300">Email</label>
+                    <input type="email" id="user_name" name="user_name" required placeholder="Enter your email"
+                        class="w-full mt-2 p-3 rounded-md text-black focus:ring-2 focus:ring-red-500 focus:outline-none">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password"
+                        class="w-full mt-2 p-3 rounded-md text-black focus:ring-2 focus:ring-red-500 focus:outline-none">
+                </div>
+                <button type="submit" class="neon-button w-full py-3 text-lg">
+                    Login
+                </button>
+            </form>
+            <div class="mt-6">
+                <p class="text-gray-400">Don't have an account? 
+                    <a href="{% url 'register' %}" class="text-red-500 hover:underline">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-4">
+        <div class="container text-center">
+            <p>© 2025 Shackles Symposium. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Add this script to toggle the menu on small screens -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuToggle = document.getElementById("menu-toggle");
+            const menuSmall = document.getElementById("menu-small");
+
+            // Ensure the script runs and the button toggles the menu
+            menuToggle.addEventListener("click", function() {
+                console.log("Button clicked!"); // Log to check if click is detected
+                menuSmall.classList.toggle("show"); // Toggle 'show' class to display the menu
+            });
+        });
+    </script>
+</body>
+</html>
