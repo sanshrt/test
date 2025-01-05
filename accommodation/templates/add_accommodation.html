@@ -1,0 +1,277 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Accommodation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        footer {
+            margin-top: auto;
+        }
+
+        .accommodation-box {
+            background-color: rgba(31, 41, 55, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .amount-box {
+            background-color: #2d3748;
+            padding: 10px;
+            border-radius: 10px;
+            color: #ff6f61;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* For larger screens (lg) */
+        @media (min-width: 1024px) {
+            .accommodation-form {
+                width: 50%;
+                padding: 2rem;
+            }
+        }
+
+        /* For small screens (sm) */
+        @media (max-width: 640px) {
+            .accommodation-box {
+                padding: 1.5rem;
+            }
+            .meal-options {
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            .meal-options label, .meal-options input {
+                font-size: 0.875rem;
+            }
+            .meal-options input {
+                transform: scale(0.9);
+            }
+        }
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on your header height */
+            right: 0; /* Align to the right side */
+            background-color: transparent;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            #menu-small a {
+                padding: 10px;
+                color: white;
+                font-weight: bold;
+                display: block;
+                align-items: center
+            }
+
+            #menu-small a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Footer at the bottom */
+        footer {
+            margin-top: auto; /* Push footer to the bottom of the page */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-bold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            Shackles
+        </h1>
+        <button id="menu-toggle" class="lg:hidden text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+
+        <!-- Menu on large screens -->
+        <div id="menu-large" class="hidden lg:flex lg:space-x-6 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
+            <a href="{% url 'home' %}" class="text-white font-bold py-2">Home</a>
+            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
+            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        </div>
+
+        <!-- Menu on small screens -->
+        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center space-y-2">
+            <a href="{% url 'home' %}" class="text-white font-bold py-2">Home</a>
+            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
+            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        </div>
+    </nav>
+
+    <!-- Add Accommodation Section -->
+    <div class="flex items-center justify-center min-h-screen px-4 lg:px-16">
+        <div class="accommodation-form w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-6 lg:p-8 accommodation-box text-center lg:text-left">
+            <div class="flex justify-center animate-pulse mb-6">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-red-500">Accommodation</h2>
+            </div>
+            <form method="POST" class="space-y-3">
+                {% csrf_token %}
+                
+                <!-- Hostel Requirement -->
+                <div class="items-center space-x-3 mb-4">
+                    <label class="flex justify-center py-5 text-white font-bold">Do you require a hostel?</label>
+                    <div class="flex justify-center space-x-5">
+                        <label for="hostel_yes" class="text-white">Yes</label>
+                        <input type="radio" id="hostel_yes" name="hostel_required" value="yes" class="bg-gray-500 text-white">
+                        <label for="hostel_no" class="text-white">No</label>
+                        <input type="radio" id="hostel_no" name="hostel_required" value="no" class="bg-gray-500 text-white">
+                    </div>
+                </div>
+                <!-- Gender Section -->
+                <div class="items-center space-x-3 mb-4">
+                    <label for="id_gender" class=" flex justify-center py-3 font-bold">Gender</label>
+                    <div class="flex justify-center space-x-3">
+                        <label for="gender_male" class="text-white">Male</label>
+                        <input type="radio" id="gender_male" name="gender" value="male" class="bg-gray-500 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <label for="gender_female" class="text-white">Female</label>
+                        <input type="radio" id="gender_female" name="gender" value="female" class="bg-gray-500 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <label for="gender_other" class="text-white">Other</label>
+                        <input type="radio" id="gender_other" name="gender" value="other" class="bg-gray-500 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                </div>
+                
+                <!-- Meal Options -->
+                <div class="meal-options space-x-3 mb-4 flex flex-col lg:flex-col lg:items-center justify-center">
+                    <label class="py-5 text-white font-bold">Meal Options</label>
+                    <div class="flex flex-wrap gap-2 justify-center lg:flex-row">
+                        <label for="meal_breakfast" class="text-white">Breakfast</label>
+                        <input type="checkbox" id="meal_breakfast" name="meal_options" value="breakfast" class="bg-gray-500 text-white" onchange="updateAmount()">
+                        <label for="meal_lunch" class="text-white">Lunch</label>
+                        <input type="checkbox" id="meal_lunch" name="meal_options" value="lunch" class="bg-gray-500 text-white" onchange="updateAmount()">
+                        <label for="meal_dinner" class="text-white">Dinner</label>
+                        <input type="checkbox" id="meal_dinner" name="meal_options" value="dinner" class="bg-gray-500 text-white" onchange="updateAmount()">
+                    </div>
+                </div>
+                <!-- Amount Box -->
+                <div id="amount-box" class="amount-box">₹250 (without food)</div>
+                
+                <div class="flex justify-center">
+                    <button type="submit" class="neon-button py-2 px-4 mt-4 text-lg font-semibold rounded-lg">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="text-center py-5 bg-gray-500 text-white">
+        <p>Shackles &copy; 2025 All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        // Ensure the script runs and the button toggles the menu
+            const menuToggle = document.getElementById("menu-toggle");
+            const menuSmall = document.getElementById("menu-small");
+
+            menuToggle.addEventListener("click", function() {
+                menuSmall.classList.toggle("show");
+            });
+
+        // Call updateAmount() to reflect the correct amount when the page loads
+        updateAmount();
+        });
+
+    // Function to update the amount based on meal selection
+        function updateAmount() {
+            const breakfast = document.getElementById("meal_breakfast").checked;
+            const lunch = document.getElementById("meal_lunch").checked;
+            const dinner = document.getElementById("meal_dinner").checked;
+            let amount = 0;
+            let mealText = [];
+
+            if (breakfast) {
+                amount += 100;
+                mealText.push("Breakfast");
+            }
+            if (lunch) {
+                amount += 150;
+                mealText.push("Lunch");
+            }
+            if (dinner) {
+                amount += 100;
+                mealText.push("Dinner");
+            }
+
+            // Update the amount box with both the total amount and the selected meals
+            const amountBox = document.getElementById("amount-box");
+            if (mealText.length > 0) {
+                amountBox.innerHTML = "₹" + amount + " (" + mealText.join(", ") + ")";
+            } else {
+                amountBox.innerHTML = "₹0";
+            }
+        }
+
+    // Attach event listeners to checkboxes to update amount
+    document.querySelectorAll(".meal-checkbox").forEach(function(checkbox) {
+        checkbox.addEventListener("change", updateAmount);
+    });
+    </script>
+</body>
+</html>

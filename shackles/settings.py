@@ -1,3 +1,4 @@
+import os
 """
 Django settings for shackles project.
 
@@ -42,8 +43,9 @@ INSTALLED_APPS = [
     'events',
     'office_bearers',
     'contact',
-    'accomodation',
-    'payment'
+    'accommodation',
+    'payment',
+    'workshop'
 ]
 
 MIDDLEWARE = [
@@ -123,6 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "events/static",  # Make sure the path is correct
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

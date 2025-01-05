@@ -1,20 +1,23 @@
 from django.contrib import admin
 from .models import Event, EventRegistration
 
-# Inline model for EventRegistration to show up in EventAdmin
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
     extra = 0
 
-# Admin for Event model to display event details and registration count
+@admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    list_display = ('name', 'date', 'total_registrations')
+    search_fields = ('name',)
     inlines = [EventRegistrationInline]
-    list_display = ('name', 'date', 'registration_count')
 
-    # Custom method to display the registration count for an event
-    def registration_count(self, obj):
+    def total_registrations(self, obj):
         return EventRegistration.objects.filter(event=obj).count()
+    total_registrations.short_description = 'Total Registrations'
 
-# Register Event and EventRegistration models in the admin site
-admin.site.register(Event, EventAdmin)
-admin.site.register(EventRegistration)
+@admin.register(EventRegistration)
+class EventRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('event', 'student', 'registration_date')  # Ensure registration_date is included
+    list_filter = ('event',)
+    search_fields = ('student__username', 'event__name')
+    date_hierarchy = 'registration_date'  # Filter by the new field

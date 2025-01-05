@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <h1>Payment Confirmation</h1>
+    <p>Thank you for registering for <strong>{{ registration.workshop.name }}</strong>.</p>
+    <p><strong>Price:</strong> ₹{{ registration.workshop.price }}</p>
+    <p>Please complete your payment via the provided methods to confirm your registration.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="neon-button">Confirm Payment</button>
+    </form>
+</body>
+</html>

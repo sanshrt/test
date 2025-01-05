@@ -20,6 +20,12 @@ from home.views import *
 from office_bearers.views import *
 from events.views import *
 from contact.views import *
+from accommodation.views import *
+from workshop.views import *
+from django.conf.urls.static import static
+from django.conf import settings
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,8 +36,11 @@ urlpatterns = [
     path('student/',student,name='student'),
     path('faculty/',faculty,name='faculty'),
     path('event/',event,name='event'),
-    path('event/<int:event_id>/register/', event_register, name='event_register'),
+    path('events/register/<int:event_id>/', event_register, name='event_register'),
     path('logout/',logout_view, name='logout'),
     path('send_message/',send_message, name='send_message'),
     path('my_messages/',my_messages, name='my_messages'),
-]
+    path('accommodation/',add_accommodation, name='accommodation'),
+    path('workshop/', workshop_list, name='workshop_list'),
+    path('workshop/<int:workshop_id>/register/', register_workshop, name='register_workshop'),
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

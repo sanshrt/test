@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Pending</title>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <h1>Payment Pending</h1>
+    <p>Your registration for <strong>{{ registration.workshop.name }}</strong> has been recorded.</p>
+    <p>An admin will verify your payment and update your status. Please contact the admin if you need assistance.</p>
+    <a href="{% url 'workshop_list' %}" class="neon-button">Back to Workshops</a>
+</body>
+</html>

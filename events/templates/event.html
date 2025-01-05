@@ -4,20 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Available Events - Racer UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
             background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Orbitron', sans-serif;
             color: #ffffff;
-        }
-
-        .neon-text {
-            color: #ff0000;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .neon-button {
@@ -30,8 +29,6 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
             transition: all 0.3s ease-in-out;
-            width: 200px;
-            padding: 1rem;
         }
 
         .neon-button:hover {
@@ -39,86 +36,188 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
         }
 
-        .animate-pulse {
-            animation: pulse 2s infinite;
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
         }
 
-        .animate-fadeIn {
-            animation: fadeIn 1.5s ease-in-out;
+        .event-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 2px solid #ff0000;
         }
 
-        .animate-glow {
-            animation: glow 1.5s ease-in-out infinite;
+        .event-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
         }
 
-        .animate-bounce {
-            animation: bounce 2s infinite;
+        .event-image {
+            width: 100%;
+            border-radius: 10px;
+            height: 200px;
+            object-fit: cover;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
+        /* Navbar styles */
+        nav {
+            padding: 1rem;
+            background-color: #d32f2f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+        }
+
+        footer {
+            margin-top: auto;
+            background-color: #333;
+            color: #ccc;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on your header height */
+            right: 0; /* Align to the right side */
+            background-color: transparent;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            #menu-small a {
+                padding: 10px;
+                color: white;
+                font-weight: bold;
+                display: block;
+                align-items: center
             }
-            to {
-                opacity: 1;
+
+            #menu-small a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
             }
         }
 
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
             }
-            50% {
-                text-shadow: 0 0 15px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.8);
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
             }
         }
     </style>
 </head>
-<body>
+<body class="bg-black">
+     <!-- Navbar -->
+     <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-bold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            Shackles
+        </h1>
+        <button id="menu-toggle" class="lg:hidden text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
 
-    <!-- Welcome Racer Section -->
-    <section class="py-10 bg-black text-center ">
-        <h1 class="text-5xl font-bold neon-text animate-fadeIn">Welcome Racer!</h1>
-    </section>
-
-    <section class="py-20 bg-black"> 
-        <div class="container mx-auto text-center">
-            <h2 class="text-5xl font-bold neon-text mb-8 animate-glow">Our Featured Events</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Event Cards -->
-                <div class="transform hover:scale-105 transition-transform duration-300 p-6 bg-gray-800 shadow-2xl rounded-lg">
-                    <a href="{% url 'event_register' event_id=1 %}">
-                        <img src="https://example.com/tech-paper.jpg" alt="Technical Paper" class="mb-4 w-full h-48 object-cover rounded-md">
-                        <h3 class="text-2xl font-semibold mb-4 neon-text animate-glow">Technical Paper Presentation</h3>
-                        <p class="text-gray-300">Present groundbreaking research in mechanical engineering and compete with the best minds.</p>
-                    </a>
-                </div>
-                <!-- Repeat for other events with respective event IDs -->
-                <div class="transform hover:scale-105 transition-transform duration-300 p-6 bg-gray-800 shadow-2xl rounded-lg">
-                    <a href="{% url 'event_register' event_id=2 %}">
-                        <img src="https://example.com/cad-contest.jpg" alt="CAD Modeling" class="mb-4 w-full h-48 object-cover rounded-md">
-                        <h3 class="text-2xl font-semibold mb-4 neon-text animate-glow">CAD Modeling Contest</h3>
-                        <p class="text-gray-300">Showcase your creativity and design skills in the ultimate CAD showdown.</p>
-                    </a>
-                </div>
-                <div class="transform hover:scale-105 transition-transform duration-300 p-6 bg-gray-800 shadow-2xl rounded-lg">
-                    <a href="{% url 'event_register' event_id=3 %}">
-                        <img src="https://example.com/cad-contest.jpg" alt="CAD Modeling" class="mb-4 w-full h-48 object-cover rounded-md">
-                        <h3 class="text-2xl font-semibold mb-4 neon-text animate-glow">CAD Modeling Contest</h3>
-                        <p class="text-gray-300">Showcase your creativity and design skills in the ultimate CAD showdown.</p>
-                    </a>
-                </div>
-                <!-- Add more events here -->
-            </div>
+        <!-- Menu on large screens -->
+        <div id="menu-large" class="hidden lg:flex lg:space-x-6 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
+            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
+            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
         </div>
-    </section>
+
+        <!-- Menu on small screens -->
+        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center space-y-2">
+            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
+            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        </div>
+    </nav>
+    <div class="p-5">
+        <h1 class="flex justify-center text-3xl font-extrabold">Events</h1>
+    </div>
+    <!-- Event Section -->
+    <div class="event-grid">
+        
+        {% for event in events %}
+        <div class="event-box">
+            {% if user.is_authenticated %}
+            <a href="{% url 'event_register' event.id %}">
+                <img src="{{ event.image.url }}" alt="{{ event.name }}" class="event-image">
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}">
+                <img src="{{ event.image.url }}" alt="{{ event.name }}" class="event-image">
+            </a>
+            {% endif %}
+            <h2 class="text-xl font-bold text-white py-2">{{ event.name }}</h2>
+            <p class="text-white">{{ event.description }}</p>
+            <p class="text-white"><strong>Date:</strong> {{ event.date }}</p>
+            {% if user.is_authenticated %}
+            <a href="{% url 'event_register' event.id %}" class="neon-button py-3 px-6 mt-4 inline-block">Register</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="neon-button py-3 px-6 mt-4 inline-block">Login to Register</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 py-4">
-        <div class="container mx-auto text-center">
-            <p class="text-sm">© 2025 Shackles. All Rights Reserved.</p>
-        </div>
+    <footer>
+        <p>© 2025 Shackles Symposium. All Rights Reserved.</p>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuToggle = document.getElementById("menu-toggle");
+            const menuSmall = document.getElementById("menu-small");
 
+            // Ensure the script runs and the button toggles the menu
+            menuToggle.addEventListener("click", function() {
+                console.log("Button clicked!"); // Log to check if click is detected
+                menuSmall.classList.toggle("show"); // Toggle 'show' class to display the menu
+            });
+        });
+    </script>
 </body>
 </html>
