@@ -1,20 +1,371 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for {{ event.name }}</title>
+    {% endblock %}
+    <title>Shackles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Faculty&family=Chakra+Petch&family=Glyphic&family=Monomaniac+One&family=Quantico&family=Rokkit:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+      /* Remove background from body and apply it using a pseudo-element */
+        body {
+            position: relative;
+            font-family: 'Rokkit', serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-{% block content %}
-<h1>Register for {{ event.name }}</h1>
-<p><strong>Date:</strong> {{ event.date }}</p>
-<p><strong>Description:</strong> {{ event.description }}</p>
+        /* Background Image (Pseudo-element) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("https://i.imgur.com/IIcuba6.jpeg") center/cover no-repeat fixed;
+            z-index: -2; /* Keeps it behind everything */
+        }
 
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+        /* Dark Overlay (Separate from the image) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust darkness here */
+            z-index: -1; /* Stays above the image but behind content */
+        }
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Register Now</button>
-</form>
-{% endblock %}
+        /* Large screens: Make overlay slightly lighter */
+        @media (min-width: 1024px) {
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), 
+                            url("https://i.imgur.com/3zxBNiY.jpeg") center/cover no-repeat fixed;
+                z-index: -1;
+            }
+        }
+
+
+
+
+        /* College Name */
+        .college-name{
+            font-family: 'Glyphic', sans-serif;
+            color: #F0EE1C;
+        }
+        .user{
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        /* Main Content */
+        .content {
+            font-family: 'Rokkit', serif;
+        }
+        .countdown {
+            font-family: 'Quantico', sans-serif;
+        }
+
+        /* "Shackles" Heading */
+        .shackles-title {
+            font-family: 'Bungee Inline', cursive;
+        }
+        /* Titles */
+        .title {
+            font-family: 'Monomaniac One', sans-serif;
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            
+        #menu-small {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateX(100%); /* Starts hidden */
+            transition: transform 0.3s ease-in-out;
+            z-index: 999; /* Ensures menu is behind toggle button */
+            pointer-events: none; /* Prevents blocking clicks when hidden */
+        }
+
+        /* Show menu when toggled */
+        #menu-small.show {
+            transform: translateX(0); /* Moves into view */
+            pointer-events: auto; /* Allows interaction */
+        }
+
+        #menu-small a {
+            padding: 10px;
+            font-weight: bold;
+            display: block;
+            color: white;
+            text-align: center;
+        }
+
+        #menu-small a:hover {
+            background-color: #af8b83;
+        }
+        }
+
+        /* Toggle Button (Ensure it's above the menu) */
+        #menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000; /* Higher than #menu-small */
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+
+
+
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Footer at the bottom */
+        footer {
+            margin-top: auto; /* Push footer to the bottom of the page */
+        }
+        
+        .chatbot-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #007bff;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        }
+        .chatbot-icon img {
+        width: 30px;
+        height: 30px;
+        }
+        .chatbot-container {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        height: 430px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 1000;
+        }
+        .chatbot-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        }
+        .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: #ff5f5f;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+        }
+        /* Flip animation */
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(180deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip {
+            animation: flip 0.8s ease;
+        }
+
+        /* Pulse glow effect */
+        @keyframes pulse {
+            0% { text-shadow: 0px 0px 5px rgba(0, 255, 255, 0.5); }
+            100% { text-shadow: 0px 0px 20px rgba(0, 255, 255, 1); }
+        }
+        .fade-in {
+            opacity: 0; /* Start invisible */
+            animation: fadeIn 4s ease-in-out forwards; /* Apply animation */
+        }
+        .color-change {
+        animation: changeColor 2s linear infinite;
+        }
+
+        @keyframes changeColor {
+        0% { color: rgb(179, 214, 5); }
+        50% { color: red; }
+        100% { color: rgb(255, 106, 0); }
+        }
+
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        }
+        .slide-in {
+            transform: translateX(-100%); /* Start off-screen to the left */
+            animation: slideIn 3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class=" p-5  flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+        </h1>
+        <button id="menu-toggle" class="lg:hidden text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+
+        <!-- Menu on large screens -->
+        <div id="menu-large" class="hidden lg:flex lg:space-x-3 lg:static flex flex-col slide-in lg:flex-row space-y-2 lg:space-y-0 lg:w-auto title">
+            <a href="{% url 'team' %}" class="text-white py-2">team</a>
+            
+            <a href="{% url 'accommodation' %}" class="text-white py-2">Accommodation</a>
+        </div>
+
+        <!-- Menu on small screens -->
+        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center rounded-l-xl title">
+            <a href="{% url 'team' %}" class="text-white  font-bold py-2">Team</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
+            <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
+        </div>
+    </nav>
+    {% block content %}
+    <div class="p-5">
+        <h1 class="text-3xl font-extrabold text-center text-white p-5">Register for {{ event.name }}</h1>
+        <p class="text-xl text-center text-white"><strong>Date:</strong> {{ event.date }}</p>
+       <p class="text-white text-center"><strong>Description:</strong> {{ event.description }}</p>
+        
+        {% if info %}
+        <ul class="flex justify-center">
+            <li class="text-white">{{ info }}</li>
+        </ul>
+        {% endif %}
+    
+
+        <div class="flex justify-center">
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="neon-button   py-3 px-6 mt-4 inline-block">Register Now</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800  py-4">
+        <div class="container text-center">
+            <p>© 2025 Shackles Symposium.</p>
+        </div>
+    </footer>
+
+    <!-- Add this script to toggle the menu on small screens -->
+    <script>
+        
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('menu-small').classList.toggle('show');
+        });
+         
+    </script>
+</body>
+</html>

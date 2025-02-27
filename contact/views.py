@@ -21,3 +21,7 @@ def send_message(request):
 def my_messages(request):
     messages = Message.objects.filter(user=request.user).order_by('-timestamp')  # Get messages for the logged-in user.
     return render(request, 'my_messages.html', {'messages': messages})
+
+
+def contact(request):
+    return render(request,'contact.html')

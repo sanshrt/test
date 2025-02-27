@@ -1,25 +1,47 @@
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Workshop, WorkshopRegistration
+from .models import *
 
-def workshop_list(request):
+def workshop(request):
     workshops = Workshop.objects.all()
-    return render(request, 'workshop_list.html', {'workshops': workshops})
+    registered_workshops = []
+
+    if request.user.is_authenticated:
+        # Get a list of workshops the user is already registered for
+        registered_workshops = WorkshopRegister.objects.filter(student=request.user).values_list('workshop', flat=True)
+
+    return render(request, 'workshop.html', {
+        'workshop': workshops,
+        'registered_workshops': registered_workshops
+    })
+
 
 @login_required
-def register_workshop(request, workshop_id):
-    workshop = get_object_or_404(Workshop, id=workshop_id)
-    if request.method == 'POST':
-        registration, created = WorkshopRegistration.objects.get_or_create(
-            user=request.user,
-            workshop=workshop
-        )
-        if created:
-            messages.success(request, f"Successfully registered for {workshop.title}")
-            return redirect('pay')  # Redirect to the payment page or dashboard
-        else:
-            messages.info(request, f"You are already registered for {workshop.title}")
-            return redirect('workshop_list')
+def register_workshop(request, pk):
+    # Fetch the specific workshop
+    workshop = get_object_or_404(Workshop, pk=pk)
 
-    return render(request, 'register_workshop.html', {'workshop': workshop})
+    # Check if the user is already registered
+    already_registered = WorkshopRegister.objects.filter(student=request.user, workshop=workshop).exists()
+
+    if already_registered:
+        # Pass a flag to the template to indicate registration status
+        return render(request, 'workshop.html', {'workshop': Workshop.objects.all(), 'is_registered': True})
+    
+    # Register the user with pay=False by default
+    WorkshopRegister.objects.create(student=request.user, workshop=workshop)
+    messages.success(request, "Registration successful! Redirecting to the payment page.")
+    return redirect('workshop_payment', pk=workshop.id)
+
+@login_required
+def workshop_payment(request, pk):
+    # Fetch the specific workshop
+    workshop = get_object_or_404(Workshop, pk=pk)
+
+    # Ensure the user is registered for the workshop
+    if not WorkshopRegister.objects.filter(student=request.user, workshop=workshop).exists():
+        messages.error(request, "You need to register for the workshop first.")
+        return redirect('workshop_list')
+
+    return render(request, 'workshop_payment.html', {'workshop': workshop})

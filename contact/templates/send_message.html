@@ -13,6 +13,9 @@
             background-size: cover;
             font-family: 'Orbitron', sans-serif;
             color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .neon-text {
@@ -72,7 +75,142 @@
                 text-shadow: 0 0 15px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.8);
             }
         }
+
+        footer {
+            margin-top: auto; /* Push footer to the bottom of the page */
+            background-color: #1a1a1a;
+        }
+
+        .chatbot-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-icon img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .chatbot-container {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 100%;
+            max-width: 350px;
+            height: 430px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chatbot-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff5f5f;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            body {
+                flex-direction: column; /* Ensure body content is stacked vertically */
+                min-height: 100vh; /* Make sure body takes up the full height */
+            }
+
+            main {
+                padding-bottom: 80px; /* Add padding for space above the footer */
+            }
+
+            .chatbot-container {
+                max-width: 90%;
+                height: 300px;
+                bottom: 70px; /* Adjust for smaller screens */
+            }
+
+            .neon-button {
+                width: 150px; /* Adjust button size for small screens */
+            }
+        }
+
     </style>
+</head>
+<body class="bg-black flex flex-col">
+    <header class="text-center py-6">
+        <div class="flex justify-center space-x-4 mt-4">
+            <button class="neon-button text-lg text-center block active shadow" onclick="setActive('send_message')">Send</button>
+            <button class="neon-button text-lg text-center block" onclick="window.location.href='/my_messages'">Chat</button>
+        </div>
+        <h1 class="text-4xl font-bold neon-text pt-5"> Messages</h1>
+    </header>
+
+    <main class="flex-grow mx-auto container pb-5">
+        {% block content %}
+        <h2 class="text-3xl font-bold text-red-500 mb-4 flex justify-center animate-pulse">Send a Message</h2>
+        <div class="w-full max-w-xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-4"> <!-- Two-column grid -->
+            <div class="col-span-1 flex"> <!-- Form on the left -->
+                <form method="post" class="space-y-4 text-black w-full">
+                    {% csrf_token %}
+                    <div class="space-y-2">
+                        {{ form.as_p|safe }}
+                    </div>
+                    <button type="submit" class="neon-button w-full flex justify-center sm:w-auto">Send</button>
+                </form>
+            </div>
+            
+            <!-- Second empty column for space -->
+            <div class="col-span-1 md:block hidden"></div> <!-- Only shown on medium and larger screens -->
+        </div>
+        {% endblock %}
+    </main>
+    
+    
+
+    <!-- Chatbot Icon -->
+    <div class="chatbot-icon" id="chatbotIcon">
+        <img src="https://img.icons8.com/material-rounded/30/ffffff/chat.png" alt="Chat Icon">
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="close-btn" id="closeBtn">×</div>
+        <iframe allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/8c8ff597-f213-4527-8f0f-88b36dcc9885"></iframe>
+    </div>
+
+    <footer class="bg-gray-800 text-gray-400 py-4 mt-auto">
+        <div class="text-center">
+            <p>© 2025 Shackles Symposium.</p>
+        </div>
+    </footer>
+
     <script>
         function setActive(page) {
             document.querySelectorAll('.neon-button').forEach(button => {
@@ -80,34 +218,18 @@
             });
             document.getElementById(page).classList.add('active');
         }
+
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeBtn = document.getElementById('closeBtn');
+
+        chatbotIcon.addEventListener('click', () => {
+            chatbotContainer.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            chatbotContainer.style.display = 'none';
+        });
     </script>
-</head>
-<body class="bg-black min-h-screen flex flex-col justify-between">
-    <header class="text-center py-6">
-        
-        <div class="flex justify-center space-x-4 mt-4">
-            <button class="neon-button text-lg text-center block active shadow" onclick="setActive('send_message')">Send</button>
-            <button class="neon-button text-lg text-center block" onclick="window.location.href='/my_messages'">Chat</button>
-        </div>
-        
-        <h1 class="text-4xl font-bold neon-text pt-5"> Messages</h1>
-    </header>
-
-    <main class="container mx-auto px-4 flex-grow">
-        {% block content %}
-        <h2 class="text-3xl font-bold text-red-500 mb-4 animate-pulse">Send a Message</h2>
-        <form method="post" class="space-y-4 text-black">
-            {% csrf_token %}
-            <div class="space-y-2">
-                {{ form.as_p|safe }}
-            </div>
-            <button type="submit" class="neon-button">Send</button>
-        </form>
-        {% endblock %}
-    </main>
-
-    <footer class="text-center py-4 bg-black text-gray-500">
-        <p>© 2025 Dark Racer Team. All rights reserved.</p>
-    </footer>
-</body>
+</body> 
 </html>

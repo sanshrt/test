@@ -4,17 +4,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Racer Team</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Shackles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Faculty&family=Chakra+Petch&family=Glyphic&family=Monomaniac+One&family=Quantico&family=Rokkit:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        /* Ensure full viewport height */
         body {
-            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            font-family: 'Rokkit', serif;
             color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* Background Image (Pseudo-element) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: url("https://res.cloudinary.com/devihgb9o/image/upload/v1740493260/phonecars_a4gmyf.jpg") center/cover no-repeat fixed;
+            z-index: -2;
+        }
+
+        /* Dark Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Large screens: Different background */
+        @media (min-width: 1024px) {
+            body::before {
+                background: url("https://res.cloudinary.com/devihgb9o/image/upload/v1740493160/cars_kv4pse.jpg") center/cover no-repeat fixed !important;
+            }
+        }
+
+        /* College Name */
+        .college-name {
+            font-family: 'Glyphic', sans-serif;
+            color: #F0EE1C;
+        }
+
+        .user {
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        /* Main Content */
+        .content {
+            font-family: 'Rokkit', serif;
+        }
+
+        .countdown {
+            font-family: 'Quantico', sans-serif;
+        }
+
+        /* "Shackles" Heading */
+        .shackles-title {
+            font-family: 'Bungee Inline', cursive;
+        }
+
+        /* Titles */
+        .title {
+            font-family: 'Monomaniac One', sans-serif;
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #F2c56f, #af8b83);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(#af8b83);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(#af8b83), 0 0 20px rgba(#af8b83);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(#af8b83), 0 0 30px rgba(#af8b83);
+        }
+
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            #menu-small {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 200px;
+                background-color: rgba(0, 0, 0, 0.9);
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 999;
+                pointer-events: none;
+            }
+
+            #menu-small.show {
+                transform: translateX(0);
+                pointer-events: auto;
+            }
+
+            #menu-small a {
+                padding: 10px;
+                font-weight: bold;
+                display: block;
+                color: white;
+                text-align: center;
+            }
+
+            #menu-small a:hover {
+                background-color: #af8b83;
+            }
+        }
+
+        /* Toggle Button (Ensure it's above the menu) */
+        #menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Footer at the bottom */
+        footer {
+            margin-top: auto;
+        }
+
+        /* Profile Card - Fixed Width & Height */
         .profile-card {
             display: flex;
             align-items: center;
@@ -23,72 +195,121 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(247, 5, 5, 0.805);
-        }       
+            width: 500px; /* Fixed width */
+            height: 180px; /* Fixed height */
+            overflow: hidden;
+        }
 
+        /* Profile Image */
         .profile-card img {
-            width: 150px; /* Width of the image */
-            height: 150px; /* Height of the image */
-            object-fit: cover; /* Ensures the image fills the box without distortion */
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
             margin-right: 20px;
-            border: 3px solid #ff0000; /* Border around the image (box outline) */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Optional shadow for the image */
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
         }
 
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(114, 113, 113, 0.8);
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        /* Neon glow effect */
-        .neon-button {
-            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
-            background-size: 200% auto;
-            color: #fff;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
-            transition: all 0.3s ease-in-out;
-            width: 200px; /* Set the button width */
-            padding: 1rem; /* Adjust button padding */
-        }
-
-        .neon-button:hover {
-            background-position: right center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
-        }
-
-        /* Active button glow effect */
-        .neon-button.active {
-            box-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 0.8);
-        }
+        /* Student Image */
         .student-image {
-        width: 300px;
-        height: 300px;
-        object-fit: cover; /* Ensures the aspect ratio is maintained */
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
         }
+
+        /* Navigation Container */
         .nav-container {
             position: absolute;
-            top: 2rem; /* Adjust the top margin */
+            top: 7rem;
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 2rem; /* Add more space between the buttons */
+            gap: 2rem;
         }
+
+        /* Image */
         img {
             max-width: 100%;
             max-height: 100%;
         }
-        .picture{
+
+        /* Picture */
+        .picture {
             width: 150px;
             height: 150px;
         }
+
+        /* Default: Large screens (2-column grid) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-content: center; /* Keeps it centered */
+        }
+
+        /* Small screens (1-column layout) */
+        @media (max-width: 1023px) {
+            .grid {
+                grid-template-columns: 1fr; /* Single column */
+            }
+            
+            .empty-div {
+                display: none; /* Hide empty divs on small screens */
+            }
+
+            .profile-card {
+                width: 100%; /* Allow full width on small screens */
+                height: auto; /* Adjust height dynamically */
+            }
+        }
+        /* Flip animation */
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(180deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip {
+            animation: flip 0.8s ease;
+        }
+
+        /* Pulse glow effect */
+        @keyframes pulse {
+            0% { text-shadow: 0px 0px 5px rgba(0, 255, 255, 0.5); }
+            100% { text-shadow: 0px 0px 20px rgba(0, 255, 255, 1); }
+        }
+        .fade-in {
+            opacity: 0; /* Start invisible */
+            animation: fadeIn 4s ease-in-out forwards; /* Apply animation */
+        }
+        .color-change {
+        animation: changeColor 2s linear infinite;
+        }
+
+        @keyframes changeColor {
+        0% { color: rgb(179, 214, 5); }
+        50% { color: red; }
+        100% { color: rgb(255, 106, 0); }
+        }
+
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        }
+        .slide-in {
+            transform: translateX(-100%); /* Start off-screen to the left */
+            animation: slideIn 3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
     </style>
     <script>
         function setActive(page) {
@@ -97,38 +318,271 @@
             });
             document.getElementById(page).classList.add('active');
         }
+        
     </script>
 </head>
-<body class="bg-black min-h-screen flex flex-col justify-center items-center">
-    
-    <div class="nav-container">
-        <button id="faculty" class="neon-button text-lg text-center block" onclick="window.location.href='/faculty'">Faculty</button>
-        <button id="student" class="neon-button text-lg text-center block active" onclick="setActive('student')">Student</button>
-    </div>
+<body>
+    <nav class=" p-5  flex items-center justify-between relative z-10">
+        <h1 class="text-xl title font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">TEAM
+        </h1>
+        <button id="menu-toggle" class="lg:hidden text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
 
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- First row -->
-            <div class="profile-card lg:col-span-1 lg:row-start-1 lg:col-start-1">
-                <img src="" class="picture" alt="">
-                <div>
-                    <h2 class="text-xl font-bold text-red-500">-----</h2>
-                    <p class="text-gray-300">-----</p>
+        <!-- Menu on large screens -->
+        <div id="menu-large" class="content hidden lg:flex lg:space-x-3 lg:static flex flex-col slide-in lg:flex-row space-y-2 lg:space-y-0 lg:w-auto title">
+            <a href="{% url 'home' %}" class="text-white  font-bold py-2">Home</a>
+            <a href="{% url 'accommodation' %}" class="text-white py-2">Accommodation</a>
+        </div>
+
+        <!-- Menu on small screens -->
+        <div id="menu-small" class=" content hidden lg:hidden flex flex-col items-center rounded-l-xl title">
+            <a href="{% url 'home' %}" class="text-white  font-bold py-2">Home</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
+            <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
+        </div>
+    </nav>
+    <section class="min-h-screen flex flex-col justify-center items-center mt-5 mb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 gap-6">
+    
+                <!-- Row 1 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/08tpOTm.jpeg" alt="Principal">
+                    <div>
+                        <h2 class="text-xl font-bold countdown text-red-500">DR.BASKARAN K</h2>
+                        <p class="user text-gray-300">PATRON</p>
+                    </div>
                 </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 2 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/StYsyDW.jpeg" alt="HOD">
+                    <div>
+                        <h2 class="text-xl  font-bold text-red-500">DR.RAMAANATHAN K</h2>
+                        <p class="text-gray-300">CONVENOR</p>
+                    </div>
+                </div>
+    
+                <!-- Row 3 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="Treasurer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">DR.SARALA</h2>
+                        <p class="text-gray-300">TREASURER MECHASS0</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 4 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/pdW7Daj.jpeg" alt="Student Coordinator">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">DR.BABU N</h2>
+                        <p class="text-gray-300">COORDINATOR</p>
+                    </div>
+                </div>
+    
+                <!-- Row 5 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/RIUaAxW.jpeg" alt="Secretary">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">SUBASH B</h2>
+                        <p class="text-gray-300">SECRETARY</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 6 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://imgur.com/Cwj3bTN.jpeg" alt="Joint Secretary">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">KEERTHIVASAN B</h2>
+                        <p class="text-gray-300">JOINT SECRETARY</p>
+                    </div>
+                </div>
+    
+                <!-- Row 7 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/7SFW2FU.jpeg" alt="Treasurer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">BHARATHI P</h2>
+                        <p class="text-gray-300">TREASURER</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 8 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/6BUJneJ.jpeg" alt="Joint Treasurer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">MARUDHAN T</h2>
+                        <p class="text-gray-300">JOINT TREASURER</p>
+                    </div>
+                </div>
+    
+                <!-- Row 9 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/sample9.jpg" alt="Joint Treasurer-2">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">KAVIPRIYA P</h2>
+                        <p class="text-gray-300">JOINT TREASURER</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 10 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="Chief Designer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">SAKTHIGANESH A</h2>
+                        <p class="text-gray-300">CHIEF DESIGNER</p>
+                    </div>
+                </div>
+    
+                <!-- Row 11 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/Lkhh5Lx.jpeg" alt="Technical Directors">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">RAVINDRANATH A</h2>
+                        <p class="text-gray-300">TECHNICAL DIRECTOR</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/QfQLt3S.jpeg" alt="Technical Directors">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">JANNA KRISHNAN V</h2>
+                        <p class="text-gray-300">TECHNICAL DIRECTOR</p>
+                    </div>
+                </div>
+    
+                <!-- Row 11 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="Technical Directors">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">MUTHU PRIYADHARSHINI P</h2>
+                        <p class="text-gray-300">TECHNICAL DIRECTOR</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 12 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/s9oOLFf.jpeg" alt="Cultural Director">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">JAI SARAN G</h2>
+                        <p class="text-gray-300">CULTURAL COORDINATOR</p>
+                    </div>
+                </div>
+    
+                <!-- Row 13 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="Cultural Director">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">SWETHA M</h2>
+                        <p class="text-gray-300">CULTURAL COORDINATOR</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 14 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/RaqWzDU.jpeg" alt="Student Coordinator">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">MUKESH KANNAN S</h2>
+                        <p class="text-gray-300">STUDENT COORDINATOR</p>
+                    </div>
+                </div>
+    
+                <!-- Row 15 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="Student Coordinator">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">DEEPAKRAJ V</h2>
+                        <p class="text-gray-300">STUDENT COORDINATOR</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 16 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/zEtEYHg.jpeg" alt="Documentation Lead">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">GOBIKA G</h2>
+                        <p class="text-gray-300">DOCUMENTATION LEAD</p>
+                    </div>
+                </div>
+                <!-- Row 15 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="UI DESIGNER">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">HARISH J</h2>
+                        <p class="text-gray-300">DEVELOPER</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 16 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="UI DESIGNER">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">SURYA R</h2>
+                        <p class="text-gray-300">DEVELOPER</p>
+                    </div>
+                </div>
+                <!-- Row 15 -->
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/SesbIog.jpeg" alt="UI DESIGNER">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">NAGARAJAN</h2>
+                        <p class="text-gray-300">DESIGNER</p>
+                    </div>
+                </div>
+                <div class="empty-div"></div>
+    
+                <!-- Row 16 -->
+                <div class="empty-div"></div>
+                <div class="profile-card">
+                    <img src="https://i.imgur.com/aLo5vjR.jpeg" alt="FULL STACK DEVELOPER">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">SANTHOSH BABU</h2>
+                        <p class="text-gray-300">FULL STACK DEVELOPER</p>
+                    </div>
+                </div>
+    
             </div>
-            <div class="lg:col-span-1 lg:row-start-1 lg:col-start-2"></div>
-            <!-- Second row -->
-            <div class="profile-card lg:col-span-1 lg:row-start-2 lg:col-start-2">
-                <img src="{% static 'IMG_20240523_220314_397.jpg' %}" class="picture" alt="">
-                <div>
-                    <h2 class="text-xl font-bold text-red-500">Santhosh Babu</h2>
-                    <p class="text-gray-300">Full Stack Developer</p>
-                </div>
+            <h1 class="font-extrabold text-4xl text-white flex justify-center title pt-8">Core Team.</h1>
+            <div class="w-full pt-8  shadow-2xl ">
+                <img class="w-full h-auto rounded-lg " src="https://i.imgur.com/7Uwadlj.jpeg" alt="Alagappa Chettiar College">
             </div>
         </div>
-    </div>
-    <footer class="footer">
-        <p>© 2025 Shackles. All Rights Reserved.</p>
+    </section>
+    
+
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>© 2025 Shackles Symposium.</p>
     </footer>
+    <script>
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('menu-small').classList.toggle('show');
+        });
+    </script>
 </body>
 </html>

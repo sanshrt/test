@@ -4,45 +4,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Racer Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Shackles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Faculty&family=Chakra+Petch&family=Glyphic&family=Monomaniac+One&family=Quantico&family=Rokkit:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body {
-            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Orbitron', sans-serif;
-            color: #ffffff;
-            background-color: black;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+      /* Remove background from body and apply it using a pseudo-element */
+    body {
+        position: relative;
+        font-family: 'Rokkit', serif;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Background Image (Pseudo-element) */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("{% static 'phonecars.jpeg' %}") center/cover no-repeat fixed;
+        z-index: -2; /* Keeps it behind everything */
+    }
+
+    /* Dark Overlay (Separate from the image) */
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6); /* Adjust darkness here */
+        z-index: -1; /* Stays above the image but behind content */
+    }
+
+    /* Large screens: Make overlay slightly lighter */
+    @media (min-width: 1024px) {
+        body::after {
+            background: rgba(0, 0, 0, 0.4);
+            background: url("{% static 'cars.jpeg' %}") center/cover no-repeat fixed;
+        }
+    }
+
+
+
+
+        /* College Name */
+        .college-name{
+            font-family: 'Glyphic', sans-serif;
+            color: #F0EE1C;
+        }
+        .user{
+            font-family: 'Chakra Petch', sans-serif;
         }
 
+        /* Main Content */
+        .content {
+            font-family: 'Rokkit', serif;
+        }
+        .countdown {
+            font-family: 'Quantico', sans-serif;
+        }
+
+        /* "Shackles" Heading */
+        .shackles-title {
+            font-family: 'Bungee Inline', cursive;
+        }
+        /* Titles */
+        .title {
+            font-family: 'Monomaniac One', sans-serif;
+        }
         .neon-button {
-            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background: linear-gradient(90deg, #F2c56f, #af8b83);
             background-size: 200% auto;
             color: #fff;
             text-transform: uppercase;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(#af8b83);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 10px rgba(#af8b83), 0 0 20px rgba(#af8b83);
             transition: all 0.3s ease-in-out;
         }
 
         .neon-button:hover {
             background-position: right center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+            box-shadow: 0 0 20px rgba(#af8b83), 0 0 30px rgba(#af8b83);
         }
 
         /* Hide menu by default on small screens */
         #menu-small {
             display: none;
             position: absolute;
-            top: 60px; /* Adjust based on your header height */
-            right: 0; /* Align to the right side */
-            background-color: transparent;
+            top: 60px;
+            right: 0;
+            background-color: white;
             text-align: right;
             z-index: 999;
         }
@@ -54,18 +113,56 @@
 
         /* Small screen adjustments */
         @media (max-width: 640px) {
+            
+            #menu-small {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 200px;
+                background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                transform: translateX(100%); /* Starts hidden */
+                transition: transform 0.3s ease-in-out;
+                z-index: 999; /* Ensures menu is behind toggle button */
+                pointer-events: none; /* Prevents blocking clicks when hidden */
+            }
+    
+            /* Show menu when toggled */
+            #menu-small.show {
+                transform: translateX(0); /* Moves into view */
+                pointer-events: auto; /* Allows interaction */
+            }
+    
             #menu-small a {
                 padding: 10px;
-                color: white;
                 font-weight: bold;
                 display: block;
-                align-items: center
+                color: white;
+                text-align: center;
             }
-
+    
             #menu-small a:hover {
-                background-color: rgba(255, 0, 0, 0.8);
+                background-color: #af8b83;
             }
         }
+    
+        /* Toggle Button (Ensure it's above the menu) */
+        #menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000; /* Higher than #menu-small */
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    
 
         /* Large screen adjustments */
         @media (min-width: 1024px) {
@@ -88,15 +185,149 @@
 
         /* Footer at the bottom */
         footer {
-            margin-top: auto; /* Push footer to the bottom of the page */
+            margin-top: auto;
         }
+
+        .chatbot-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-icon img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .chatbot-container {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 430px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chatbot-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff5f5f;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }
+        /* Countdown box styling */
+        .countdown-box {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 6px 8px;  /* Reduced padding */
+            min-width: 40px;  /* Reduced width */
+            text-align: center;
+            box-shadow: 0px 0px 6px rgba(0, 255, 255, 0.6); /* Slightly reduced glow */
+        }
+
+        .countdown-item span {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00FFFF;
+            text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .countdown-item small {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Flip animation */
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(180deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip {
+            animation: flip 0.8s ease;
+        }
+
+        /* Pulse glow effect */
+        @keyframes pulse {
+            0% { text-shadow: 0px 0px 5px rgba(0, 255, 255, 0.5); }
+            100% { text-shadow: 0px 0px 20px rgba(0, 255, 255, 1); }
+        }
+        .fade-in {
+            opacity: 0; /* Start invisible */
+            animation: fadeIn 4s ease-in-out forwards; /* Apply animation */
+        }
+        .color-change {
+        animation: changeColor 2s linear infinite;
+        }
+
+        @keyframes changeColor {
+        0% { color: rgb(179, 214, 5); }
+        50% { color: red; }
+        100% { color: rgb(255, 106, 0); }
+        }
+
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        }
+        .slide-in {
+            transform: translateX(-100%); /* Start off-screen to the left */
+            animation: slideIn 3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
     </style>
 </head>
-<body class="bg-black">
+<body class="bg-black background">
     <!-- Navbar -->
-    <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
-        <h1 class="text-xl font-bold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
-            Shackles
+    <nav class=" p-5  flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
         </h1>
         <button id="menu-toggle" class="lg:hidden text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -105,69 +336,140 @@
         </button>
 
         <!-- Menu on large screens -->
-        <div id="menu-large" class="hidden lg:flex lg:space-x-6 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
-            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
-            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
-            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        <div id="menu-large" class="hidden lg:flex lg:space-x-3 lg:static slide-in flex flex-col slide-in lg:flex-row space-y-2 lg:space-y-0 lg:w-auto title">
+            <a href="{% url 'team' %}" class="text-white py-2">Team</a>
+            <a href="{% url 'accommodation' %}" class="text-white py-2">Accommodation</a>
         </div>
 
         <!-- Menu on small screens -->
-        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center space-y-2">
-            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
-            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center rounded-l-xl title">
+            <a href="{% url 'team' %}" class="text-white  font-bold py-2">Team</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
             <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
+            <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
         </div>
     </nav>
 
-    <!-- Login Section -->
-    <div class="flex items-center justify-center lg:justify-end min-h-screen px-4 lg:px-16">
-        <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm p-6 lg:p-8 bg-gray-800 bg-opacity-70 rounded-lg shadow-lg text-center lg:text-left">
+    <section class="p-10">
+        <h1 class="flex justify-center font-extrabold text-3xl color-change shackles-title">Shackles-25</h1>
+        <div class="flex justify-center">
+            <h2 class="text-center college-name p-3 font-extrabold text-yellow-300">Alagappa Chettiar Government College Of Engineering And Technology</h2>
+        </div>
+    </section>
+    <div class="flex flex-col lg:flex-row items-center justify-center px-4 lg:px-16 flex-grow mb-6">
+        <div class="text-center mb-8 lg:mb-0 lg:w-1/2">
+            <h2 class="text-2xl font-bold text-cyan-400 drop-shadow-lg">Countdown to Shackles Symposium</h2>
+            <div id="countdown" class="countdown-box mt-5"></div>
+        </div>
+
+        <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm lg:w-1/2 p-6 lg:p-8 bg-gray-800 bg-opacity-70 rounded-lg shadow-lg text-center lg:text-left mt-4 lg:mt-0">
             <div class="flex justify-center animate-pulse">
                 <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-red-500">Welcome</h2>
                 <h2 class="text-3xl pl-2 lg:text-4xl font-bold mb-6 text-red-500">Racer!</h2>
             </div>
-            <form method="POST" class="space-y-3">
+
+            <form method="POST" class="space-y-3 ">
                 {% csrf_token %}
-                <div>
-                    <label for="user_name" class="block text-sm font-medium text-gray-300">Email</label>
+                <div >
+                    <label for="user_name" class="block text-sm flex  font-medium text-gray-300">Email</label>
                     <input type="email" id="user_name" name="user_name" required placeholder="Enter your email"
-                        class="w-full mt-2 p-3 rounded-md text-black focus:ring-2 focus:ring-red-500 focus:outline-none">
+                        class="w-full user mt-2 p-3 rounded-md text-black focus:ring-2 focus:ring-red-500 focus:outline-none">
                 </div>
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+                    <label for="password" class="block text-sm flex font-medium text-gray-300">Password</label>
                     <input type="password" id="password" name="password" required placeholder="Enter your password"
-                        class="w-full mt-2 p-3 rounded-md text-black focus:ring-2 focus:ring-red-500 focus:outline-none">
+                        class="w-full mt-2 user p-3 rounded-md text-black focus:ring-2 focus:ring-red-500 focus:outline-none">
                 </div>
                 <button type="submit" class="neon-button w-full py-3 text-lg">
                     Login
                 </button>
             </form>
-            <div class="mt-6">
-                <p class="text-gray-400">Don't have an account? 
-                    <a href="{% url 'register' %}" class="text-red-500 hover:underline">Register</a>
-                </p>
-            </div>
+
+            <p class="mt-5 text-sm text-gray-300">Don't have an account? <a href="{% url 'register' %}" class="font-bold text-red-400 hover:text-red-500">Sign Up</a></p>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 py-4">
-        <div class="container text-center">
-            <p>© 2025 Shackles Symposium. All Rights Reserved.</p>
+    <div class=" mt-5 mx-4 my-4 text-black rounded-xl p-4">
+        <h1 class="font-extrabold text-4xl flex justify-center bg-white pt-5 pb-10">About.</h1>
+        <div class="w-full border border-b-2  shadow-2xl bg-opacity-70">
+            <img class="w-full h-auto rounded-lg " src="https://ugcounselor-content.s3.ap-south-1.amazonaws.com/wp-content/uploads/2024/10/03154435/Alagappa-Chettair-Government-College-of-Engineering-and-Technology.jpg" alt="Alagappa Chettiar College">
         </div>
+        <p class="text-center bg-white p-3 font-bold leading-relaxed">
+            <strong>Alagappa Chettiar College of Engineering and Technology (ACCET)</strong> is a prestigious engineering institution located in Karaikudi, Tamil Nadu. Founded in **1952**, the college is affiliated with **Anna University** and has consistently maintained a reputation for excellence in technical education and research.
+           r its **state-of-the-art laboratories, industry collaborations, and student-driven projects**, making it a hub for aspiring mechanical engineers. It regularly organizes **workshops, guest lectures, and technical events** to keep students updated with the latest industry trends.
+        </p>
+    </div>
+    
+    
+
+    <footer class="p-6 bg-gray-800 text-center text-white mt-auto">
+        <p>&copy; 2025 Shackles Symposium.</p>
     </footer>
 
-    <!-- Add this script to toggle the menu on small screens -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const menuToggle = document.getElementById("menu-toggle");
-            const menuSmall = document.getElementById("menu-small");
 
-            // Ensure the script runs and the button toggles the menu
-            menuToggle.addEventListener("click", function() {
-                console.log("Button clicked!"); // Log to check if click is detected
-                menuSmall.classList.toggle("show"); // Toggle 'show' class to display the menu
-            });
+    <script>
+        function startCountdown(targetDate) {
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                if (timeLeft <= 0) {
+                    document.getElementById("countdown").innerHTML = "<span class='text-red-500 text-2xl'>Event Started!</span>";
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                const countdownHTML = `
+                    <div class="countdown-item"><span class="flip">${days}</span><small>Days</small></div>
+                    <div class="countdown-item"><span class="flip">${hours}</span><small>Hours</small></div>
+                    <div class="countdown-item"><span class="flip">${minutes}</span><small>Minutes</small></div>
+                    <div class="countdown-item"><span class="flip">${seconds}</span><small>Seconds</small></div>
+                `;
+
+                document.getElementById("countdown").innerHTML = countdownHTML;
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Set the target date (YYYY, MM (0-11), DD)
+        const eventDate = new Date(2025, 2, 13, 10, 0, 0).getTime(); // Example: Feb 15, 2025, 10 AM
+        startCountdown(eventDate);
+
+        // Toggle menu on small screens
+        const menuToggleButton = document.getElementById("menu-toggle");
+        const menuSmall = document.getElementById("menu-small");
+
+        menuToggleButton.addEventListener("click", () => {
+            menuSmall.classList.toggle("show");
+        });
+
+        // Chatbot functionality
+        const chatbotIcon = document.createElement("div");
+        chatbotIcon.classList.add("chatbot-icon");
+        chatbotIcon.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/ChatGPT_logo_2023.svg/1200px-ChatGPT_logo_2023.svg.png" alt="Chatbot">';
+        document.body.appendChild(chatbotIcon);
+
+        const chatbotContainer = document.createElement("div");
+        chatbotContainer.classList.add("chatbot-container");
+        chatbotContainer.innerHTML = `
+            <div class="close-btn">&times;</div>
+            <iframe src="https://chat.openai.com" title="Chatbot"></iframe>
+        `;
+        document.body.appendChild(chatbotContainer);
+
+        chatbotIcon.addEventListener("click", () => {
+            chatbotContainer.style.display = chatbotContainer.style.display === "none" ? "block" : "none";
+        });
+
+        const closeBtn = chatbotContainer.querySelector(".close-btn");
+        closeBtn.addEventListener("click", () => {
+            chatbotContainer.style.display = "none";
         });
     </script>
 </body>

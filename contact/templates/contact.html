@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
       /* Remove background from body and apply it using a pseudo-element */
-        /* Remove background from body and apply it using a pseudo-element */
         body {
             position: relative;
             font-family: 'Rokkit', serif;
@@ -86,6 +85,8 @@
         .title {
             font-family: 'Monomaniac One', sans-serif;
         }
+
+        /* Custom Neon Button */
         .neon-button {
             background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
             background-size: 200% auto;
@@ -103,112 +104,35 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
         }
 
-        .center-box {
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%); /* Align the box vertically */
-            padding: 20px;
-            background-color: rgba(31, 41, 55, 0.7);
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .heading {
-            color: #ff0000;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .headingt {
-            color: #f31818;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .sub-heading {
-            color: #fff;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .form-btn {
-            margin-top: 20px;
-        }
-
-        /* Hide menu by default on small screens */
+        /* Menu adjustments */
         #menu-small {
             display: none;
             position: absolute;
-            top: 60px; /* Adjust based on your header height */
-            right: 0; /* Align to the right side */
+            top: 60px;
+            right: 0;
             background-color: transparent;
             text-align: right;
             z-index: 999;
         }
 
-        /* Show menu when it's toggled on small screens */
         #menu-small.show {
             display: block;
         }
 
-        /* Small screen adjustments */
         @media (max-width: 640px) {
-            
-            #menu-small {
-                position: fixed;
-                top: 0;
-                right: 0;
-                height: 100%;
-                width: 200px;
-                background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
-                padding: 10px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                transform: translateX(100%); /* Starts hidden */
-                transition: transform 0.3s ease-in-out;
-                z-index: 999; /* Ensures menu is behind toggle button */
-                pointer-events: none; /* Prevents blocking clicks when hidden */
-            }
-    
-            /* Show menu when toggled */
-            #menu-small.show {
-                transform: translateX(0); /* Moves into view */
-                pointer-events: auto; /* Allows interaction */
-            }
-    
             #menu-small a {
                 padding: 10px;
+                color: white;
                 font-weight: bold;
                 display: block;
-                color: white;
-                text-align: center;
+                align-items: center;
             }
-    
+
             #menu-small a:hover {
-                background-color: #af8b83;
+                background-color: rgba(255, 0, 0, 0.8);
             }
-        }
-    
-        /* Toggle Button (Ensure it's above the menu) */
-        #menu-toggle {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 1000; /* Higher than #menu-small */
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
         }
 
-        /* Large screen adjustments */
         @media (min-width: 1024px) {
             #menu-large {
                 display: flex;
@@ -229,50 +153,98 @@
 
         /* Footer at the bottom */
         footer {
-            margin-top: auto; /* Push footer to the bottom of the page */
+            margin-top: auto;
         }
 
-        .chatbot-icon {
-            width: 60px;
-            height: 60px;
-            background-color: #007bff;
-            border-radius: 50%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .chatbot-icon img {
-            width: 30px;
-            height: 30px;
-        }
-
-        .chatbot-container {
+        /* Hide menu by default on small screens */
+        #menu-small {
             display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            
+        #menu-small {
             position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 430px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            z-index: 1000;
-        }
-
-        .chatbot-container iframe {
-            width: 100%;
+            top: 0;
+            right: 0;
             height: 100%;
-            border: none;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateX(100%); /* Starts hidden */
+            transition: transform 0.3s ease-in-out;
+            z-index: 999; /* Ensures menu is behind toggle button */
+            pointer-events: none; /* Prevents blocking clicks when hidden */
         }
 
+        /* Show menu when toggled */
+        #menu-small.show {
+            transform: translateX(0); /* Moves into view */
+            pointer-events: auto; /* Allows interaction */
+        }
+
+        #menu-small a {
+            padding: 10px;
+            font-weight: bold;
+            display: block;
+            color: white;
+            text-align: center;
+        }
+
+        #menu-small a:hover {
+            background-color: #af8b83;
+        }
+    }
+
+    /* Toggle Button (Ensure it's above the menu) */
+    #menu-toggle {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 1000; /* Higher than #menu-small */
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+
+
+
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
         .close-btn {
             position: absolute;
             top: 5px;
@@ -288,37 +260,7 @@
             color: #fff;
             cursor: pointer;
         }
-        img {
-            max-width: 100%;
-            max-height: 90%;
-        }
-        .picture{
-            width: 400px;
-            height: 400px;
-        }
-        .student-image {
-        width: 300px;
-        height: 300px;
-        object-fit: cover; /* Ensures the aspect ratio is maintained */
-        }
-        .profile-card {
-            display: flex;
-            align-items: center;
-            background: rgba(52, 51, 51, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(247, 5, 5, 0.805);
-        }       
-
-        .profile-card img {
-            width: 150px; /* Width of the image */
-            height: 150px; /* Height of the image */
-            object-fit: cover; /* Ensures the image fills the box without distortion */
-            margin-right: 20px;
-            border: 3px solid #ff0000; /* Border around the image (box outline) */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Optional shadow for the image */
-        }
+        /* Flip animation */
         @keyframes flip {
             0% { transform: rotateX(0deg); }
             50% { transform: rotateX(180deg); }
@@ -369,7 +311,6 @@
 </head>
 <body class="">
     <!-- Navbar -->
-    <!-- Navbar -->
     <nav class=" p-5  flex items-center justify-between relative z-10">
         <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
         </h1>
@@ -381,56 +322,53 @@
 
         <!-- Menu on large screens -->
         <div id="menu-large" class="hidden lg:flex lg:space-x-3 lg:static flex flex-col slide-in lg:flex-row space-y-2 lg:space-y-0 lg:w-auto title">
-            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
+            <a href="{% url 'home' %}" class="text-white  py-2">Home</a>
             <a href="{% url 'accommodation' %}" class="text-white py-2">Accommodation</a>
         </div>
 
         <!-- Menu on small screens -->
         <div id="menu-small" class="hidden lg:hidden flex flex-col items-center rounded-l-xl title">
+            <a href="{% url 'home' %}" class="text-white font-bold py-2">Home</a>
             <a href="{% url 'team' %}" class="text-white  font-bold py-2">Team</a>
-            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
             <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
             <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
             <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
         </div>
     </nav>
-    <section class="p-10 flex justify-center items-center min-h-screen mt-10 mb-5">
-        <div class="bg-gray-900 w-full sm:w-1/3 p-6 rounded-lg text-center">
-            <img src="https://i.imgur.com/dfG6jTK.jpeg" alt="" class="picture justify-center profile-card">
-            <h2 class="text-xl text-white font-extrabold mb-6 mt-4">Whatsapp Number: 9080849635</h2>
-    
-            <!-- Button to redirect to login -->
-            <form action="{% url 'login' %}" method="get">
-                <button type="submit" class="neon-button w-full py-3 text-lg mt-4">
-                    Go to Login
-                </button>
-            </form>
-            <p class="font-bold text-white mt-4">Our team will conform the user LoginID and payment within 24 hrs</p>
-        </div>
-    </section>
-    
 
-    
-    <footer class="bg-gray-800 text-gray-400 py-4 text-center">
-        <p>&copy;  2025 Shackles Symposium.</p>
+    <!-- Contact Information Section -->
+    <div class="text-center mt-8 py-10">
+        <p class="text-2xl font-bold text-white pb-3">contact us directly:</p>
+        <p class="text-lg text-white">Phone: <a  class="text-blue-400">9080849635</a></p>
+        <p class="text-lg text-white">Email: <a  class="text-blue-400">shackles2k25@gmail.com</a></p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>&copy; 2025 Shackles-25.</p>
     </footer>
 
+    <!-- Add this script to toggle the menu on small screens -->
     <script>
-        // Handle menu toggle on small screens
-        document.getElementById('menu-toggle').addEventListener('click', function () {
-            document.getElementById('menu-small').classList.toggle('show');
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuToggle = document.getElementById("menu-toggle");
+            const menuSmall = document.getElementById("menu-small");
+
+            // Ensure the script runs and the button toggles the menu
+            menuToggle.addEventListener("click", function() {
+                menuSmall.classList.toggle("show");
+            });
         });
 
-        // Toggle chatbot visibility
         const chatbotIcon = document.getElementById('chatbotIcon');
         const chatbotContainer = document.getElementById('chatbotContainer');
-        const closeChatbot = document.getElementById('closeChatbot');
+        const closeBtn = document.getElementById('closeBtn');
 
-        chatbotIcon.addEventListener('click', function () {
+        chatbotIcon.addEventListener('click', () => {
             chatbotContainer.style.display = 'block';
         });
 
-        closeChatbot.addEventListener('click', function () {
+        closeBtn.addEventListener('click', () => {
             chatbotContainer.style.display = 'none';
         });
     </script>

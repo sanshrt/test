@@ -5,82 +5,491 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shackles</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Goldman&family=Chakra+Petch&family=Lora&family=Monomaniac+One&family=Orbitron&family=Rokkit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/QUP0FPE.jpeg">
+
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
+      /* Remove background from body and apply it using a pseudo-element */
         body {
-            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Orbitron', sans-serif;
-            color: white;
+            position: relative;
+            font-family: 'Rokkit', serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Background Image (Pseudo-element) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("https://res.cloudinary.com/devihgb9o/image/upload/v1740493260/phonecars_a4gmyf.jpg") center/cover no-repeat fixed;
+            z-index: -2; /* Keeps it behind everything */
+        }
+
+        /* Dark Overlay (Separate from the image) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust darkness here */
+            z-index: -1; /* Stays above the image but behind content */
+        }
+
+        /* Large screens: Make overlay slightly lighter */
+        @media (min-width: 1024px) {
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), 
+                            url("https://res.cloudinary.com/devihgb9o/image/upload/v1740493160/cars_kv4pse.jpg") center/cover no-repeat fixed;
+                z-index: -1;
+            }
+        }
+
+
+
+
+        /* College Name */
+        .college-name{
+            font-family: 'Racing Sans One', cursive;
+            color: #F0EE1C;
+        }
+        .user{
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        /* Main Content */
+        .content {
+            font-family: 'LORA', serif;
+        }
+        .countdown {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* "Shackles" Heading */
+        .shackles-title {
+            font-family: 'RacingSansOne', cursive;
+        }
+        /* Titles */
+        .title {
+            font-family: 'Goldman', sans-serif;
+        }
         .neon-button {
-            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background: linear-gradient(90deg, #F2c56f, #af8b83);
             background-size: 200% auto;
             color: #fff;
             text-transform: uppercase;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(#af8b83);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 10px rgba(#af8b83), 0 0 20px rgba(#af8b83);
             transition: all 0.3s ease-in-out;
         }
 
         .neon-button:hover {
             background-position: right center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+            box-shadow: 0 0 20px rgba(#af8b83), 0 0 30px rgba(#af8b83);
+        }
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            text-align: right;
+            z-index: 999;
         }
 
-        .animate-pulse-custom {
-            animation: pulse-animation 1.5s infinite;
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
         }
 
-        @keyframes pulse-animation {
-            0% {
-                opacity: 1;
+        /* Small screen adjustments (Up to 767px, includes iPads in portrait mode) */
+        @media (max-width: 767px) {
+            #menu-small {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 200px;
+                background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                transform: translateX(100%); /* Starts hidden */
+                transition: transform 0.3s ease-in-out;
+                z-index: 999; /* Ensures menu is behind toggle button */
+                pointer-events: none; /* Prevents blocking clicks when hidden */
             }
-            50% {
-                opacity: 0.5;
+
+            /* Show menu when toggled */
+            #menu-small.show {
+                transform: translateX(0); /* Moves into view */
+                pointer-events: auto; /* Allows interaction */
             }
-            100% {
-                opacity: 1;
+
+            #menu-small a {
+                padding: 10px;
+                font-weight: bold;
+                display: block;
+                color: white;
+                text-align: center;
             }
+
+            #menu-small a:hover {
+                background-color: #af8b83;
+            }
+        }
+
+        /* Medium screens (iPads and tablets in landscape mode, from 768px and above) */
+        @media (min-width: 768px) {
+            #menu-large {
+                display: flex !important; /* Ensures visibility */
+                justify-content: space-around;
+                width: auto;
+            }
+            
+            /* Hide small menu in md and above */
+            #menu-small {
+                display: none !important;
+            }
+        }
+
+        /* Large screen adjustments (From 1024px and above) */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Toggle Button (Ensure it's above the menu) */
+        #menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000; /* Higher than #menu-small */
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Footer at the bottom */
+        footer {
+            margin-top: auto;
+        }
+
+        .chatbot-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-icon img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .chatbot-container {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 430px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chatbot-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .nav{
+            background: linear-gradient(90deg, #FCD34D, 
+            #FBBF24);   
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff5f5f;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }
+        /* Countdown box styling */
+        .countdown-box {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 6px 8px;  /* Reduced padding */
+            min-width: 40px;  /* Reduced width */
+            text-align: center;
+            box-shadow: 0px 0px 6px rgba(0, 255, 255, 0.6); /* Slightly reduced glow */
+        }
+
+        .countdown-item span {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00FFFF;
+            text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .countdown-item small {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Flip animation */
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(180deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip {
+            animation: flip 0.8s ease;
+        }
+
+        /* Pulse glow effect */
+        @keyframes pulse {
+            0% { text-shadow: 0px 0px 5px rgba(0, 255, 255, 0.5); }
+            100% { text-shadow: 0px 0px 20px rgba(0, 255, 255, 1); }
+        }
+        .fade-in {
+            opacity: 0; /* Start invisible */
+            animation: fadeIn 4s ease-in-out forwards; /* Apply animation */
+        }
+        .color-change {
+        animation: changeColor 2s linear infinite;
+        }
+
+        @keyframes changeColor {
+        0% { color: rgb(179, 214, 5); }
+        50% { color: red; }
+        100% { color: rgb(255, 106, 0); }
+        }
+
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        }
+        .slide-in {
+            transform: translateX(-100%); /* Start off-screen to the left */
+            animation: slideIn 3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        .shackles-img {
+            display: block;  /* Ensures proper block alignment */
+            margin: 0 auto;  /* Centers image horizontally */
+            max-width: 100%; /* Prevents it from exceeding original size */
+            height: auto;    /* Keeps original height */
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-end bg-black">
-
-    <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm p-6 lg:p-8 bg-gray-800 bg-opacity-70 rounded-lg shadow-lg mx-4 lg:mx-8 text-center lg:text-left">
-        <div class="flex justify-center animate-pulse-custom"> 
-            <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-red-500">Welcome </h2>
-            <h2 class="text-3xl pl-2 lg:text-4xl font-bold mb-6 text-red-500">Racer! </h2>
+<body class="bg-opacity-70">
+    <nav class="p-5 flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-extrabold mx-auto md:mx-0 md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+            
+        </h1>
+        <button id="menu-toggle" class="md:hidden text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+    
+        <!-- Large Screen Menu (Visible from md: 768px onwards) -->
+        <div id="menu-large" class="hidden md:flex md:space-x-3 title">
+            <a href="{% url 'team' %}" class="text-white font-bold py-2">Team</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
+            <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
         </div>
-
-        <div class="text-2xl text-center text-white mb-6 ">Shackles-25</div>
-        
-        <div class="space-y-4">
-            <a href="event" class="neon-button w-full py-3 text-lg text-center block">Event</a>
-            <a href="event_register" class="neon-button w-full py-3 text-lg text-center block">Event Registration</a>
+    
+        <!-- Small Screen Menu (Hidden above 768px) -->
+        <div id="menu-small" class="hidden md:hidden flex flex-col items-center rounded-l-xl title">
+            <a href="{% url 'team' %}" class="text-white font-bold py-2">Team</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
+            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
+            <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
         </div>
+    </nav>
+    
 
-        <div class="mt-6">
-            <p class="text-gray-400">Already a member? 
-                {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="text-red-500 hover:underline">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="text-red-500 hover:underline">Login</a>
-                    <a href="{% url 'register' %}" class="text-red-500 hover:underline">Register</a>
-                {% endif %}
-            </p>
+    <!-- Content Section -->
+    <section class="p-10">
+        <div class="flex justify-center m-8" >
+            <img class="shackles-img bg-white" src="https://i.imgur.com/7JElYRE.png" alt="SHACKLES">
+        </div>
+        <div class="flex justify-center">
+            <h2 class="text-center college-name p-3 lg:text-3xl font-extrabold text-yellow-300">Alagappa Chettiar Government College Of Engineering And Technology Karaikudi</h2>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <div class="flex flex-col lg:flex-row items-center justify-center px-4 lg:px-16 flex-grow mb-6">
+        <div class="text-center mb-8 lg:mb-0 lg:w-1/2">
+            <h2 class="text-2xl countdown font-bold text-cyan-400 drop-shadow-lg">Countdown to Shackles Symposium</h2>
+            <h2 class="text-2xl countdown font-bold text-cyan-400 drop-shadow-lg">27 & 28 March</h2>
+            <div id="countdown" class="countdown-box mt-5"></div>
+        </div>
+    
+        <!-- Main Content Box -->
+        <div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm lg:w-1/2 p-6 lg:p-8 bg-gray-800 bg-opacity-70 rounded-lg shadow-lg text-center lg:text-left mt-4 lg:mt-0">
+            <div class="flex flex-col justify-center items-center ">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-2 title fade-in  text-red-500">Welcome</h2>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-red-800 user">{{ username }}</h2>
+            </div>
+            
+    
+                <div class="space-y-4 title">
+                    <a href="event" class="neon-button w-full py-3 text-lg text-center text-3xl block">Event</a>
+                    <a href="workshop" class="neon-button w-full py-3 text-lg text-center text-3xl block">Workshop</a>
+                </div>
+    
+                <div class="mt-6">
+                    <p class="text-gray-400">Already a member?
+                        {% if user.is_authenticated %}
+                            <!-- Logout form -->
+                            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-500 hover:underline bg-transparent border-none">Logout</button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Login</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <footer class="bg-gray-800 text-gray-400 absolute bottom-0 w-full py-4">
-        <div class="container text-center">
-            <p>© 2025 Shackles Symposium, ACGCET Mechanical Department. All Rights Reserved.</p>
+    
+    <div class=" mt-5 mx-4 my-4 text-black rounded-xl p-4">
+        <h1 class="font-extrabold text-4xl text-white flex justify-center title pb-10">About.</h1>
+        <div class="w-full border border-b-2  shadow-2xl bg-transparent">
+            <img class="w-full h-auto  " src="https://i.imgur.com/cH0aAt0.jpeg" alt="Alagappa Chettiar College">
         </div>
+        <p class="text-center content p-3 leading-relaxed bg-white">
+            <strong>SHACKLES 2025</strong> 
+            is one of the annual state level technical symposium conducted by Mechasso.It has been held every year over a period of two days during either the month of February or March.Many participants participate in the symposium from various colleges across the state. It is conducted b Mechasso, Alagappa Chettiar Government College of Engineering & Technology. ACGCET-Karaikudi is an government autonomous college of engineering in Karaikudi, Tamilnadu, India. Established in 1952, it is under the control of the government of the State. The college is a member institute under the TEQIP - Technical Education Quality Improvement Programme in India (11 colleges were selected from Tamil Nadu).
+        </p>
+    </div>
+
+    
+
+    
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>&copy; 2025 Shackles-25.</p>
     </footer>
 
+    <script>
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('menu-small').classList.toggle('show');
+        });
+
+        function startCountdown(targetDate) {
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                if (timeLeft <= 0) {
+                    document.getElementById("countdown").innerHTML = "<span class='text-red-500 text-2xl'>Event Started!</span>";
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                const countdownHTML = `
+                    <div class="countdown-item"><span class="flip">${days}</span><small>Days</small></div>
+                    <div class="countdown-item"><span class="flip">${hours}</span><small>Hours</small></div>
+                    <div class="countdown-item"><span class="flip">${minutes}</span><small>Minutes</small></div>
+                    <div class="countdown-item"><span class="flip">${seconds}</span><small>Seconds</small></div>
+                `;
+
+                document.getElementById("countdown").innerHTML = countdownHTML;
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Set the target date (YYYY, MM (0-11), DD)
+        const eventDate = new Date(2025, 2, 27, 10, 0, 0).getTime();
+        startCountdown(eventDate);
+
+
+        
+    </script>
 </body>
 </html>

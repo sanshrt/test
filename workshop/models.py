@@ -1,21 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+# Create your models here.
 class Workshop(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
+    name = models.CharField(max_length=25)
+    description = models.CharField(max_length=500)
     date = models.DateField()
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField(upload_to='workshop_images/', null=True, blank=True)
+    urls = models.CharField(max_length=500)
+    fees = models.IntegerField()
 
     def __str__(self):
         return self.name
 
 
-class WorkshopRegistration(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class WorkshopRegister(models.Model):
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE)
-    payment_status = models.BooleanField(default=False)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    registration_date = models.DateTimeField(auto_now_add=True)
+    pay = models.BooleanField(default=False)  # Default value is False
 
     def __str__(self):
-        return f"{self.user.username} - {self.workshop.name}"
+        return f"{self.student.username} - {self.workshop.name} - {'Paid' if self.pay else 'Pending'}"

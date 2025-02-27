@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Payment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .neon-button {
+            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
+            background-size: 200% auto;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-button:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(45, 55, 72, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .neon-text {
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
+        }
+        .chatbot-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #007bff;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        }
+        .chatbot-icon img {
+        width: 30px;
+        height: 30px;
+        }
+        .chatbot-container {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        height: 430px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 1000;
+        }
+        .chatbot-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        }
+        .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: #ff5f5f;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            Shackles
+        </h1>
+     </nav>
+    <div class="container p-5">
+        <h1 class="text-2xl font-bold mb-4 neon-text">Payment for {{ workshop.name }}</h1>
+        <p class="text-lg">The fee for this workshop is ₹{{ workshop.fees }}.</p>
+        <p class="mt-4 text-lg">Kindly complete your payment and send the transaction details to the provided contact number.</p>
+        <h2 class="mt-4 text-lg font-bold neon-text">Contact: 6379721151</h2>
+        <a href="{% url 'workshop_list' %}" class="neon-button w-full py-3 text-lg mt-4 text-center block">
+            Back to Workshops
+        </a>
+    </div>
+    <!-- Chatbot Icon -->
+    <div class="chatbot-icon" id="chatbotIcon">
+        <img src="https://img.icons8.com/material-rounded/30/ffffff/chat.png" alt="Chat Icon">
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="close-btn" id="closeBtn">×</div>
+        <iframe allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/8c8ff597-f213-4527-8f0f-88b36dcc9885"></iframe>
+    </div>
+    <footer class=" footer bg-gray-800  py-4">
+        
+        <p>© 2025 Shackles Symposium.</p>
+    </footer>
+    <script>
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeBtn = document.getElementById('closeBtn');
+
+        chatbotIcon.addEventListener('click', () => {
+        chatbotContainer.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+        chatbotContainer.style.display = 'none';
+        }); 
+    </script>
+    </script>
+</body>
+</html>

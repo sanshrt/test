@@ -4,19 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available Events - Racer UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Shackles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Faculty&family=Chakra+Petch&family=Glyphic&family=Monomaniac+One&family=Quantico&family=Rokkit:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
+      /* Remove background from body and apply it using a pseudo-element */
         body {
-            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            font-family: 'Rokkit', serif;
             color: #ffffff;
-            background-color: black;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+
+        /* Background Image (Pseudo-element) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("https://i.imgur.com/IIcuba6.jpeg") center/cover no-repeat fixed;
+            z-index: -2; /* Keeps it behind everything */
+        }
+
+        /* Dark Overlay (Separate from the image) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust darkness here */
+            z-index: -1; /* Stays above the image but behind content */
+        }
+
+        /* Large screens: Make overlay slightly lighter */
+        @media (min-width: 1024px) {
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), 
+                            url("https://i.imgur.com/3zxBNiY.jpeg") center/cover no-repeat fixed;
+                z-index: -1;
+            }
+        }
+
+
+
+
+        /* College Name */
+        .college-name{
+            font-family: 'Glyphic', sans-serif;
+            color: #F0EE1C;
+        }
+        .user{
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        /* Main Content */
+        .content {
+            font-family: 'Rokkit', serif;
+        }
+        .countdown {
+            font-family: 'Quantico', sans-serif;
+        }
+
+        /* "Shackles" Heading */
+        .shackles-title {
+            font-family: 'Bungee Inline', cursive;
+        }
+        /* Titles */
+        .title {
+            font-family: 'Monomaniac One', sans-serif;
         }
 
         .neon-button {
@@ -49,6 +116,10 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
             padding: 2rem;
             text-align: center;
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: break-word;
+            display: block;
             transition: transform 0.3s ease;
             border: 2px solid #ff0000;
         }
@@ -65,31 +136,6 @@
             object-fit: cover;
         }
 
-        /* Navbar styles */
-        nav {
-            padding: 1rem;
-            background-color: #d32f2f;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-
-        nav h1 {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: #fff;
-            padding: 0.5rem 1rem;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 0, 0, 0.8);
-        }
-
         footer {
             margin-top: auto;
             background-color: #333;
@@ -101,9 +147,9 @@
         #menu-small {
             display: none;
             position: absolute;
-            top: 60px; /* Adjust based on your header height */
-            right: 0; /* Align to the right side */
-            background-color: transparent;
+            top: 60px;
+            right: 0;
+            background-color: white;
             text-align: right;
             z-index: 999;
         }
@@ -115,18 +161,58 @@
 
         /* Small screen adjustments */
         @media (max-width: 640px) {
-            #menu-small a {
-                padding: 10px;
-                color: white;
-                font-weight: bold;
-                display: block;
-                align-items: center
-            }
-
-            #menu-small a:hover {
-                background-color: rgba(255, 0, 0, 0.8);
-            }
+            
+        #menu-small {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateX(100%); /* Starts hidden */
+            transition: transform 0.3s ease-in-out;
+            z-index: 999; /* Ensures menu is behind toggle button */
+            pointer-events: none; /* Prevents blocking clicks when hidden */
         }
+
+        /* Show menu when toggled */
+        #menu-small.show {
+            transform: translateX(0); /* Moves into view */
+            pointer-events: auto; /* Allows interaction */
+        }
+
+        #menu-small a {
+            padding: 10px;
+            font-weight: bold;
+            display: block;
+            color: white;
+            text-align: center;
+        }
+
+        #menu-small a:hover {
+            background-color: #af8b83;
+        }
+        }
+
+        /* Toggle Button (Ensure it's above the menu) */
+        #menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000; /* Higher than #menu-small */
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+
+
 
         /* Large screen adjustments */
         @media (min-width: 1024px) {
@@ -146,13 +232,111 @@
                 background-color: rgba(255, 0, 0, 0.8);
             }
         }
+        .chatbot-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #007bff;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        }
+        .chatbot-icon img {
+        width: 30px;
+        height: 30px;
+        }
+        .chatbot-container {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        height: 430px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 1000;
+        }
+        .chatbot-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        }
+        .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: #ff5f5f;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+        }
+        /* Flip animation */
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(180deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip {
+            animation: flip 0.8s ease;
+        }
+
+        /* Pulse glow effect */
+        @keyframes pulse {
+            0% { text-shadow: 0px 0px 5px rgba(0, 255, 255, 0.5); }
+            100% { text-shadow: 0px 0px 20px rgba(0, 255, 255, 1); }
+        }
+        .fade-in {
+            opacity: 0; /* Start invisible */
+            animation: fadeIn 4s ease-in-out forwards; /* Apply animation */
+        }
+        .color-change {
+        animation: changeColor 2s linear infinite;
+        }
+
+        @keyframes changeColor {
+        0% { color: rgb(179, 214, 5); }
+        50% { color: red; }
+        100% { color: rgb(255, 106, 0); }
+        }
+
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        }
+        .slide-in {
+            transform: translateX(-100%); /* Start off-screen to the left */
+            animation: slideIn 3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
     </style>
 </head>
-<body class="bg-black">
-     <!-- Navbar -->
-     <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
-        <h1 class="text-xl font-bold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
-            Shackles
+<body class="">
+    <!-- Navbar -->
+    <nav class=" p-5  flex items-center justify-between relative z-10">
+        <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
         </h1>
         <button id="menu-toggle" class="lg:hidden text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -161,19 +345,22 @@
         </button>
 
         <!-- Menu on large screens -->
-        <div id="menu-large" class="hidden lg:flex lg:space-x-6 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
-            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
-            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
-            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        <div id="menu-large" class="hidden lg:flex lg:space-x-3 lg:static flex flex-col slide-in lg:flex-row space-y-2 lg:space-y-0 lg:w-auto title">
+            <a href="{% url 'team' %}" class="text-white py-2">Team</a>
+            
+            <a href="{% url 'accommodation' %}" class="text-white py-2">Accommodation</a>
         </div>
 
         <!-- Menu on small screens -->
-        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center space-y-2">
-            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
-            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center rounded-l-xl title">
+            <a href="{% url 'team' %}" class="text-white  font-bold py-2">Team</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
             <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
+            <a href="{% url 'accommodation' %}" class="text-white font-bold py-2">Accommodation</a>
         </div>
     </nav>
+
     <div class="p-5">
         <h1 class="flex justify-center text-3xl font-extrabold">Events</h1>
     </div>
@@ -184,16 +371,17 @@
         <div class="event-box">
             {% if user.is_authenticated %}
             <a href="{% url 'event_register' event.id %}">
-                <img src="{{ event.image.url }}" alt="{{ event.name }}" class="event-image">
+                <img src="{{event.pic}}"  class="event-image">
             </a>
             {% else %}
             <a href="{% url 'login' %}">
-                <img src="{{ event.image.url }}" alt="{{ event.name }}" class="event-image">
+                <img src="{{event.pic}}"  class="event-image">
             </a>
             {% endif %}
             <h2 class="text-xl font-bold text-white py-2">{{ event.name }}</h2>
-            <p class="text-white">{{ event.description }}</p>
-            <p class="text-white"><strong>Date:</strong> {{ event.date }}</p>
+            <p class="text-white flex justify-center p--2">{{ event.description }}</p>
+            <p class="text-white p-5"><strong>Date:</strong> {{ event.date }}</p>
+            <a  class="flex justify-center " href="{{event.doc}}">download</a>
             {% if user.is_authenticated %}
             <a href="{% url 'event_register' event.id %}" class="neon-button py-3 px-6 mt-4 inline-block">Register</a>
             {% else %}
@@ -202,21 +390,37 @@
         </div>
         {% endfor %}
     </div>
+    <!-- Chatbot Icon -->
+    <div class="chatbot-icon" id="chatbotIcon">
+        <img src="https://img.icons8.com/material-rounded/30/ffffff/chat.png" alt="Chat Icon">
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="close-btn" id="closeBtn">×</div>
+        <iframe allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/8c8ff597-f213-4527-8f0f-88b36dcc9885"></iframe>
+    </div>
 
     <!-- Footer -->
-    <footer>
-        <p>© 2025 Shackles Symposium. All Rights Reserved.</p>
+    <footer class="bg-gray-800" >
+        <p>© 2025 Shackles Symposium.</p>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const menuToggle = document.getElementById("menu-toggle");
-            const menuSmall = document.getElementById("menu-small");
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('menu-small').classList.toggle('show');
+        });
+        
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeBtn = document.getElementById('closeBtn');
 
-            // Ensure the script runs and the button toggles the menu
-            menuToggle.addEventListener("click", function() {
-                console.log("Button clicked!"); // Log to check if click is detected
-                menuSmall.classList.toggle("show"); // Toggle 'show' class to display the menu
-            });
+        chatbotIcon.addEventListener('click', () => {
+        chatbotContainer.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+        chatbotContainer.style.display = 'none';
         });
     </script>
 </body>

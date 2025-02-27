@@ -1,134 +1,326 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Racer Team</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Shackles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Faculty&family=Chakra+Petch&family=Glyphic&family=Monomaniac+One&family=Quantico&family=Rokkit:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
+      /* Remove background from body and apply it using a pseudo-element */
         body {
-            background: url('{% static "dark-racer-bg.jpeg" %}') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            font-family: 'Rokkit', serif;
             color: #ffffff;
-        }
-
-        .profile-card {
             display: flex;
-            align-items: center;
-            background: rgba(52, 51, 51, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(247, 5, 5, 0.805);
-        }       
-
-        .profile-card img {
-            width: 150px; /* Width of the image */
-            height: 150px; /* Height of the image */
-            object-fit: cover; /* Ensures the image fills the box without distortion */
-            margin-right: 20px;
-            border: 3px solid #ff0000; /* Border around the image (box outline) */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Optional shadow for the image */
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .footer {
+        /* Background Image (Pseudo-element) */
+        body::before {
+            content: "";
             position: fixed;
-            bottom: 0;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: rgba(114, 113, 113, 0.8);
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            padding: 10px 0;
+            height: 100%;
+            background: url("https://i.imgur.com/IIcuba6.jpeg") center/cover no-repeat fixed;
+            z-index: -2; /* Keeps it behind everything */
         }
 
-        /* Neon glow effect */
-        .neon-button {
-            background: linear-gradient(90deg, #ff0000, #ff7300, #ff0000);
-            background-size: 200% auto;
-            color: #fff;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 0, 0, 0.6);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
-            transition: all 0.3s ease-in-out;
-            width: 200px; /* Set the button width */
-            padding: 1rem; /* Adjust button padding */
+        /* Dark Overlay (Separate from the image) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust darkness here */
+            z-index: -1; /* Stays above the image but behind content */
         }
 
-        .neon-button:hover {
-            background-position: right center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        /* Large screens: Make overlay slightly lighter */
+        @media (min-width: 1024px) {
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), 
+                            url("https://i.imgur.com/3zxBNiY.jpeg") center/cover no-repeat fixed;
+                z-index: -1;
+            }
         }
 
-        /* Active button glow effect */
-        .neon-button.active {
-            box-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 0.8);
+
+
+
+        /* College Name */
+        .college-name{
+            font-family: 'Glyphic', sans-serif;
+            color: #F0EE1C;
         }
-        .student-image {
-        width: 300px;
-        height: 300px;
-        object-fit: cover; /* Ensures the aspect ratio is maintained */
+        .user{
+            font-family: 'Chakra Petch', sans-serif;
         }
-        .nav-container {
+
+        /* Main Content */
+        .content {
+            font-family: 'Rokkit', serif;
+        }
+        .countdown {
+            font-family: 'Quantico', sans-serif;
+        }
+
+        /* "Shackles" Heading */
+        .shackles-title {
+            font-family: 'Bungee Inline', cursive;
+        }
+        /* Titles */
+        .title {
+            font-family: 'Monomaniac One', sans-serif;
+        }
+        /* Hide menu by default on small screens */
+        #menu-small {
+            display: none;
             position: absolute;
-            top: 2rem; /* Adjust the top margin */
-            width: 100%;
+            top: 60px;
+            right: 0;
+            background-color: white;
+            text-align: right;
+            z-index: 999;
+        }
+
+        /* Show menu when it's toggled on small screens */
+        #menu-small.show {
+            display: block;
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 640px) {
+            
+        #menu-small {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.9); /* Darker for visibility */
+            padding: 10px;
             display: flex;
-            justify-content: center;
-            gap: 2rem; /* Add more space between the buttons */
+            flex-direction: column;
+            align-items: center;
+            transform: translateX(100%); /* Starts hidden */
+            transition: transform 0.3s ease-in-out;
+            z-index: 999; /* Ensures menu is behind toggle button */
+            pointer-events: none; /* Prevents blocking clicks when hidden */
         }
-        img {
-            max-width: 100%;
-            max-height: 100%;
+
+        /* Show menu when toggled */
+        #menu-small.show {
+            transform: translateX(0); /* Moves into view */
+            pointer-events: auto; /* Allows interaction */
         }
-        .picture{
-            width: 150px;
-            height: 150px;
+
+        #menu-small a {
+            padding: 10px;
+            font-weight: bold;
+            display: block;
+            color: white;
+            text-align: center;
+        }
+
+        #menu-small a:hover {
+            background-color: #af8b83;
+        }
+    }
+
+    /* Toggle Button (Ensure it's above the menu) */
+    #menu-toggle {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 1000; /* Higher than #menu-small */
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+
+
+
+        /* Large screen adjustments */
+        @media (min-width: 1024px) {
+            #menu-large {
+                display: flex;
+                justify-content: space-around;
+                width: auto;
+            }
+
+            #menu-large a {
+                padding: 10px 20px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #menu-large a:hover {
+                background-color: rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Footer at the bottom */
+        footer {
+            margin-top: auto;
         }
     </style>
-    <script>
-        function setActive(page) {
-            document.querySelectorAll('.neon-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.getElementById(page).classList.add('active');
-        }
-    </script>
-</head>
-<body class="bg-black min-h-screen flex flex-col justify-center items-center">
-    
-    <div class="nav-container">
-        <button id="faculty" class="neon-button text-lg text-center block active" onclick="setActive('faculty')">Faculty</button>
-        <button id="student" class="neon-button text-lg text-center block" onclick="window.location.href='/student'">Student</button>
-    </div>
+<body>
+    <nav class="p-10 bg-red-600 flex items-center justify-between relative  z-10">
+        <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            Shackles
+        </h1>
+    </nav>
+    <section class="min-h-screen flex flex-col justify-center items-center mt-5 mb-10">
+        <div class="mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- First row -->
-            <div class="profile-card lg:col-span-1 lg:row-start-1 lg:col-start-1">
-                <img src="" class="picture" alt="HOD">
-                <div>
-                    <h2 class="text-xl font-bold text-red-500">Ramanathan</h2>
-                    <p class="text-gray-300">HOD</p>
+                <div class="lg:row-start-1 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample1.jpg" alt="Principal">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Principal</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
                 </div>
-            </div>
-            <div class="lg:col-span-1 lg:row-start-1 lg:col-start-2"></div>
-            <!-- Second row -->
-            <div class="profile-card lg:col-span-1 lg:row-start-2 lg:col-start-2">
-                <img src="" alt="">
-                <div>
-                    <h2 class="text-xl font-bold text-red-500">------</h2>
-                    <p class="text-gray-300">-----</p>
+
+                <div class=" lg:row-start-2 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample2.jpg" alt="HOD">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">HOD</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
                 </div>
+
+                <div class=" lg:row-start-3 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample3.jpg" alt="Treasurer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Treasurer</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-4 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample4.jpg" alt="Student Coordinator">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Student Coordinator</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-5 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample5.jpg" alt="Secretary">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Secretary</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-6 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample6.jpg" alt="Joint Secretary">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Joint Secretary</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-7 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample7.jpg" alt="Treasurer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Treasurer</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-8 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample8.jpg" alt="Joint Treasurer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Joint Treasurer</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-9 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample9.jpg" alt="Joint Treasurer-2">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Joint Treasurer-2</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-10 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample10.jpg" alt="Chief Designer">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Chief Designer</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-11 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample11.jpg" alt="Technical Directors">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Technical Directors</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-12 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample12.jpg" alt="Cultural Director-1">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Cultural Director-1</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+                <div class=" lg:row-start-13 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample13.jpg" alt="Cultural Director-2">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Cultural Director-2</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-14 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample14.jpg" alt="Student Coordinator-1">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Student Coordinator-1</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
+                <div class=" lg:row-start-15 lg:col-start-1">
+                    <img src="https://i.imgur.com/sample15.jpg" alt="Student Coordinator-2">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Student Coordinator-2</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+                <div class=" lg:row-start-16 lg:col-start-2">
+                    <img src="https://i.imgur.com/sample16.jpg" alt="Documentation Lead">
+                    <div>
+                        <h2 class="text-xl font-bold text-red-500">Documentation Lead</h2>
+                        <p class="text-gray-300">Position</p>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-    <footer class="footer">
-        <p>© 2025 Shackles. All Rights Reserved.</p>
+    </section>
+
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>© 2025 Shackles Symposium.</p>
     </footer>
 </body>
 </html>

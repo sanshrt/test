@@ -140,7 +140,7 @@
 <body>
     <!-- Navbar -->
     <nav class="p-5 bg-red-600 flex items-center justify-between relative z-10">
-        <h1 class="text-xl font-bold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+        <h1 class="text-xl font-extrabold mx-auto lg:mx-0 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
             Shackles
         </h1>
         <button id="menu-toggle" class="lg:hidden text-white">
@@ -150,19 +150,20 @@
         </button>
 
         <!-- Menu on large screens -->
-        <div id="menu-large" class="hidden lg:flex lg:space-x-6 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
-            <a href="{% url 'home' %}" class="text-white font-bold py-2">Home</a>
-            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
-            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
-            <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+        <div id="menu-large" class="hidden lg:flex lg:space-x-3 lg:static flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:w-auto">
+            <a href="{% url 'home' %}" class="text-white py-2">Home</a>
+            <a href="{% url 'contact' %}" class="text-white py-2">Contact</a>
+            <a href="{% url 'event' %}" class="text-white  py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white  py-2">Workshop</a>
         </div>
 
         <!-- Menu on small screens -->
-        <div id="menu-small" class="hidden lg:hidden flex flex-col items-center space-y-2">
+        <div id="menu-small" class=" hidden lg:hidden flex flex-col items-center space-y-2">
             <a href="{% url 'home' %}" class="text-white font-bold py-2">Home</a>
-            <a href="{% url 'student' %}" class="text-white font-bold py-2">Student</a>
-            <a href="{% url 'faculty' %}" class="text-white font-bold py-2">Faculty</a>
+            <a href="{% url 'contact' %}" class="text-white font-bold py-2">Contact</a>
+            <a href="{% url 'team' %}" class="text-white font-bold py-2">team</a>
             <a href="{% url 'event' %}" class="text-white font-bold py-2">Event</a>
+            <a href="{% url 'workshop_list' %}" class="text-white font-bold py-2">Workshop</a>
         </div>
     </nav>
 
@@ -220,8 +221,8 @@
         </div>
     </div>
 
-    <footer class="text-center py-5 bg-gray-500 text-white">
-        <p>Shackles &copy; 2025 All rights reserved.</p>
+    <footer class="text-center py-5 bg-gray-800 text-white">
+        <p> &copy; 2025 Shackles Symposium.</p>
     </footer>
 
     <script>

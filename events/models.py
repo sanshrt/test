@@ -5,8 +5,8 @@ class Event(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     date = models.DateField()
-    image = models.ImageField(upload_to='event_images/')
-
+    pic = models.CharField(max_length=500)
+    doc = models.CharField(max_length=1000,null=True,blank=True)
     def __str__(self):
         return self.name
 
